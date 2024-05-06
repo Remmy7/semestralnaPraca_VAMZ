@@ -24,6 +24,7 @@ fun MainMenu(
     viewModel: MainViewModel = viewModel(),
     preferenceHelper: SharedPreferences?
 ) {
+    // Load preferenceHelper when starting app
     preferenceHelper?.let { prefs ->
         val level = viewModel.level
         val gold = viewModel.gold
@@ -77,12 +78,12 @@ fun StatItem(name: String, value: MutableState<Int>) {
     ) {
         Text(
             text = "$name: ",
-            //style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.bodyLarge,
             color = Color.White
         )
         Text(
             text = value.value.toString(),
-            //style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.bodyLarge,
             color = Color.White
         )
     }
@@ -96,7 +97,7 @@ fun ButtonsLayout() {
             .padding(vertical = 16.dp)
     ) {
         Button(
-            onClick = { /* Handle Fight button click */ },
+            onClick = { /* TODO() */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -106,7 +107,7 @@ fun ButtonsLayout() {
         }
 
         Button(
-            onClick = { /* Handle Blacksmith button click */ },
+            onClick = { /* TODO() */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -116,7 +117,7 @@ fun ButtonsLayout() {
         }
 
         Button(
-            onClick = { /* Handle Units button click */ },
+            onClick = { /* TODO() */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -126,7 +127,7 @@ fun ButtonsLayout() {
         }
 
         Button(
-            onClick = { /* Handle Legacy button click */ },
+            onClick = { /* TODO() */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -136,7 +137,7 @@ fun ButtonsLayout() {
         }
 
         Button(
-            onClick = { /* Handle Settings button click */ },
+            onClick = { /* TODO() */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
@@ -157,7 +158,6 @@ class MainViewModel : ViewModel() {
     private val _legacy = mutableStateOf(0)
     val legacy: MutableState<Int> = _legacy
 
-    // Functions to update ViewModel values
     fun setLevel(newLevel: Int) {
         _level.value = newLevel
     }
@@ -177,13 +177,11 @@ fun MainMenuPreview() {
     SemestralnaPraca_VAMZTheme {
         val viewModel = MainViewModel()
 
-        // Create a mock SharedPreferences object for preview
+
         val mockPreferenceHelper = object : SharedPreferences {
-            // Implement methods of SharedPreferences interface here
-            // For simplicity, you can just return default values
 
             override fun getAll(): MutableMap<String, *> {
-                return mutableMapOf<String, Any?>() // Return an empty mutable map
+                return mutableMapOf<String, Any?>()
             }
 
             override fun getString(key: String?, defValue: String?): String? {
