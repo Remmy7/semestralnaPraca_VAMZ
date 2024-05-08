@@ -44,3 +44,11 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 …
 Uapp/src/androidTest/java/com/example/semestralnapraca_vamz/ExampleInstrumentedTest.kt,b\2\b26e5577a2e42f2d490b7347374a3f1e8cd2f5ca
+r
+Bapp/src/main/java/com/example/semestralnapraca_vamz/ui/MainMenu.kt,0\e\0e3a09eeb3c56f3827bb0bea161a3cfbc4e5a885
+
+Oapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/GameViewModel.kt,3\c\3c00bdef0dbfe82629f8d4feac35c4c74354a5e5
+ƒ
+Sapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/MainMenuViewModel.kt,3\5\3513ebde65e74e1aed237e950697d7a0220e0bd7
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
