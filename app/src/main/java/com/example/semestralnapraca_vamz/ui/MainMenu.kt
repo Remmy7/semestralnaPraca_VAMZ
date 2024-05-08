@@ -1,4 +1,5 @@
 package com.example.semestralnapraca_vamz.ui
+import android.content.Context
 import android.content.SharedPreferences
 import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.background
@@ -23,13 +24,17 @@ import com.example.semestralnapraca_vamz.MainActivity
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
-//private lateinit var viewModel: MainViewModel
+
+
 @Composable
 fun MainMenu(
     viewModel: MainMenuViewModel = viewModel(),
-    preferenceHelper: SharedPreferences?,
+    preferenceHelper: SharedPreferences,
     isLandscape: Boolean
+
+
 ) {
+    println("ok2")
     preferenceHelper?.let { prefs ->
         val level = viewModel.level
         val gold = viewModel.gold
@@ -44,6 +49,7 @@ fun MainMenu(
         viewModel.setLevel(savedLevel)
         viewModel.setGold(savedGold)
         viewModel.setLegacy(savedLegacy)
+        println("ok3")
 
         MainMenuContent(level, gold, legacy, isLandscape)
     }

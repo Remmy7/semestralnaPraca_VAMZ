@@ -25,7 +25,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceHelper = getSharedPreferences("IdleGame", Context.MODE_PRIVATE)
+        preferenceHelper = getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
+        viewModel = MainMenuViewModel()
         setContent {
             SemestralnaPraca_VAMZTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
                     val isLandscape = remember {
                         resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                     }
+                    println("ok1")
                     MainMenu(viewModel = viewModel, preferenceHelper = preferenceHelper, isLandscape = isLandscape)
                 }
             }
@@ -62,6 +64,7 @@ class MainActivity : ComponentActivity() {
         val _knightWeaponLevel = "knightWeaponLevel"
         val _mysticLevel = "mysticLevel"
         val _mysticWeaponLevel = "mysticWeaponLevel"
+
     }
 
     object PreferenceHelperLegacy {
