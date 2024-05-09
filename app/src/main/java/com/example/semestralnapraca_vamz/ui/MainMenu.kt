@@ -11,9 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,53 +27,46 @@ import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
 
+private lateinit var sharedPreferences: SharedPreferences
 
 @Composable
 fun MainMenu(
-    viewModel: MainMenuViewModel = viewModel(),
-    preferenceHelper: SharedPreferences,
+    context: Context,
     isLandscape: Boolean
-
-
 ) {
-    println("ok2")
-    preferenceHelper?.let { prefs ->
-        val level = viewModel.level
-        val gold = viewModel.gold
-        val legacy = viewModel.legacy
 
-        // Retrieve values from SharedPreferences
-        val savedLevel = prefs.getInt(MainActivity.PreferenceHelper._level, 1)
-        val savedGold = prefs.getInt(MainActivity.PreferenceHelper._gold, 600)
-        val savedLegacy = prefs.getInt(MainActivity.PreferenceHelper._legacy, 0)
+    val viewModel = remember { MainMenuViewModel(context) }
 
-        // Save values to ViewModel
-        viewModel.setLevel(savedLevel)
-        viewModel.setGold(savedGold)
-        viewModel.setLegacy(savedLegacy)
-        println("ok3")
+    val level = viewModel.level
+    val gold = viewModel.gold
+    val legacy = viewModel.legacy
 
-        MainMenuContent(level, gold, legacy, isLandscape)
-    }
+
+
+    MainMenuContent(level, gold, legacy, isLandscape, viewModel)
 }
+
 @Composable
 fun MainMenuContent(
     level: MutableState<Int>,
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
-    isLandscape: Boolean
+    isLandscape: Boolean,
+    viewModel: MainMenuViewModel
 ) {
     if (isLandscape) {
-        LandscapeLayout(level, gold, legacy)
+        LandscapeLayout(level, gold, legacy, viewModel)
     } else {
-        PortraitLayout(level, gold, legacy)
+        PortraitLayout(level, gold, legacy, viewModel)
     }
 }
 @Composable
 fun LandscapeLayout(
+
     level: MutableState<Int>,
     gold: MutableState<Int>,
-    legacy: MutableState<Int>
+    legacy: MutableState<Int>,
+    viewModel: MainMenuViewModel
 ) {
     Row(
         modifier = Modifier
@@ -103,9 +98,8 @@ fun LandscapeLayout(
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    /*val level = viewModel.level
-                    viewModel.setLevel(level.value + 1);
-                          */},
+                  viewModel.setLevel(level.value + 1)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
@@ -129,9 +123,9 @@ fun LandscapeLayout(
         ) {
             Column(
                 modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .background(Color(0xFF5C2402))
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .background(Color(0xFF5C2402))
                 ,
                 verticalArrangement = Arrangement.SpaceEvenly,
 
@@ -200,7 +194,8 @@ fun LandscapeLayout(
 fun PortraitLayout(
     level: MutableState<Int>,
     gold: MutableState<Int>,
-    legacy: MutableState<Int>
+    legacy: MutableState<Int>,
+    viewModel: MainMenuViewModel
 ) {
     Column(
         modifier = Modifier
@@ -404,82 +399,16 @@ fun ButtonsLayout(isLandscape: Boolean) {
     }
 }
 
-
-class MainViewModel : ViewModel() {
-    private val _level = mutableStateOf(1)
-    val level: MutableState<Int> = _level
-
-    private val _gold = mutableStateOf(600)
-    val gold: MutableState<Int> = _gold
-
-    private val _legacy = mutableStateOf(0)
-    val legacy: MutableState<Int> = _legacy
-
-    fun setLevel(newLevel: Int) {
-        _level.value = newLevel
-    }
-
-    fun setGold(newGold: Int) {
-        _gold.value = newGold
-    }
-
-    fun setLegacy(newLegacy: Int) {
-        _legacy.value = newLegacy
-    }
-}
-
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun MainMenuPreview() {
-    SemestralnaPraca_VAMZTheme {
-        val viewModel = MainViewModel()
+    val context = LocalContext.current
 
-
-        val mockPreferenceHelper = object : SharedPreferences {
-
-            override fun getAll(): MutableMap<String, *> {
-                return mutableMapOf<String, Any?>()
-            }
-
-            override fun getString(key: String?, defValue: String?): String? {
-                return null
-            }
-
-            override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String>? {
-                return null
-            }
-
-            override fun getInt(key: String?, defValue: Int): Int {
-                return 0
-            }
-
-            override fun getLong(key: String?, defValue: Long): Long {
-                return 0L
-            }
-
-            override fun getFloat(key: String?, defValue: Float): Float {
-                return 0f
-            }
-
-            override fun getBoolean(key: String?, defValue: Boolean): Boolean {
-                return false
-            }
-
-            override fun contains(key: String?): Boolean {
-                return false
-            }
-
-            override fun edit(): SharedPreferences.Editor {
-                throw NotImplementedError("Mock SharedPreferences doesn't support editing")
-            }
-
-            override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {}
-
-            override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {}
-        }
-
-        MainMenu(viewModel = MainMenuViewModel(), preferenceHelper = mockPreferenceHelper, true)
-    }
+    MainMenu(
+        context,
+        isLandscape = false
+    )
 }
+
 
 

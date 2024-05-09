@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.semestralnapraca_vamz.ui.MainMenu
-import com.example.semestralnapraca_vamz.ui.MainViewModel
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
@@ -23,13 +22,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var preferenceHelper: SharedPreferences
     private lateinit var viewModel: MainMenuViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceHelper = getSharedPreferences("PreferenceHelper", Context.MODE_PRIVATE)
-        viewModel = MainMenuViewModel()
         setContent {
             SemestralnaPraca_VAMZTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -37,44 +34,11 @@ class MainActivity : ComponentActivity() {
                     val isLandscape = remember {
                         resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                     }
-                    println("ok1")
-                    MainMenu(viewModel = viewModel, preferenceHelper = preferenceHelper, isLandscape = isLandscape)
+                    MainMenu(this, isLandscape)
                 }
             }
         }
     }
 
-    // This object holds all values of SharedPreferences
-    // it also sets every string value into a separate variable like _level
-    object PreferenceHelper { //https://www.journaldev.com/234/android-sharedpreferences-kotlin
-        val _level = "level"
-        val _currentExperience = "currentExperience"
-        val _levelUpExperience = "levelUpExperience"
-        val _gold = "gold"
-        val _legacy = "legacy"
-        val _monsterLevel = "monsterLevel"
-        val _monsterHealth = "monsterHealth"
-        val _monsterMaxHealth = "monsterMaxHealth"
 
-        val _wizardLevel = "wizardLevel"
-        val _wizardWeaponLevel = "wizardWeaponLevel"
-        val _archerLevel = "archerLevel"
-        val _archerWeaponLevel = "archerWeaponLevel"
-        val _knightLevel = "knightLevel"
-        val _knightWeaponLevel = "knightWeaponLevel"
-        val _mysticLevel = "mysticLevel"
-        val _mysticWeaponLevel = "mysticWeaponLevel"
-
-    }
-
-    object PreferenceHelperLegacy {
-        val _legacyWizardLevel = "legacyWizardLevel"
-        val _legacyWizardWeaponLevel = "legacyWizardWeaponLevel"
-        val _legacyArcherLevel = "legacyArcherLevel"
-        val _legacyArcherWeaponLevel = "legacyArcherWeaponLevel"
-        val _legacyKnightLevel = "legacyKnightLevel"
-        val _legacyKnightWeaponLevel = "legacyKnightWeaponLevel"
-        val _legacyMysticLevel = "legacyMysticLevel"
-        val _legacyMysticWeaponLevel = "legacyMysticWeaponLevel"
-    }
 }
