@@ -22,18 +22,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.MainActivity
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
-
-private lateinit var sharedPreferences: SharedPreferences
+var landscapeFight: Boolean = false
 
 @Composable
 fun MainMenu(
     context: Context,
     isLandscape: Boolean
 ) {
+    landscapeFight = isLandscape
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = MainActivity.IdleGameScreen.MainMenu.name) {
+        composable("mainMenu") {
+            //MainMenu(context, landscapeFight) //doesn't work yet
+        }
+        composable("fightMenu") {
+            //FightMenu(context, landscapeFight)
+        }
+    }
 
     val viewModel = remember { MainMenuViewModel(context) }
 
@@ -43,7 +56,7 @@ fun MainMenu(
 
 
 
-    MainMenuContent(level, gold, legacy, isLandscape, viewModel)
+    MainMenuContent(level, gold, legacy, isLandscape, viewModel, context)
 }
 
 @Composable
@@ -52,12 +65,13 @@ fun MainMenuContent(
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
     isLandscape: Boolean,
-    viewModel: MainMenuViewModel
+    viewModel: MainMenuViewModel,
+    context: Context
 ) {
     if (isLandscape) {
-        LandscapeLayout(level, gold, legacy, viewModel)
+        LandscapeLayout(level, gold, legacy, viewModel, context)
     } else {
-        PortraitLayout(level, gold, legacy, viewModel)
+        PortraitLayout(level, gold, legacy, viewModel, context)
     }
 }
 @Composable
@@ -66,7 +80,8 @@ fun LandscapeLayout(
     level: MutableState<Int>,
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
-    viewModel: MainMenuViewModel
+    viewModel: MainMenuViewModel,
+    context: Context
 ) {
     Row(
         modifier = Modifier
@@ -195,7 +210,8 @@ fun PortraitLayout(
     level: MutableState<Int>,
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
-    viewModel: MainMenuViewModel
+    viewModel: MainMenuViewModel,
+    context: Context
 ) {
     Column(
         modifier = Modifier

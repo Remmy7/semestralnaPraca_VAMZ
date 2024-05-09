@@ -136,3 +136,15 @@ w
 G.idea/sonarlint/issuestore/1/9/193303d54f5fc72f14ca8804e3cdbb632e483cd2,0\d\0dcd1884627307d72c1c304bc084cd983bffa40d
 Å
 Q.idea/sonarlint/securityhotspotstore/8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e,1\f\1fe398aa86b382486ed27d0a69bf92f68bd5edaa
+s
+Capp/src/main/java/com/example/semestralnapraca_vamz/ui/FightMenu.kt,4\2\42ce77e2fd21126bbbdc3fcdaeb74b66eecd71df
+Ñ
+Tapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/FightMenuViewModel.kt,0\8\08be593cb35a5da924f0bab26eac3f64d443f777
+x
+Happ/src/main/java/com/example/semestralnapraca_vamz/ui/BlacksmithMenu.kt,5\3\539770ad4ace941fd808c6f9c80ba6bc39455e1a
+s
+Capp/src/main/java/com/example/semestralnapraca_vamz/ui/UnitsMenu.kt,b\5\b52f289d39c42ca77d937f18da9aee621b0ffc6b
+v
+Fapp/src/main/java/com/example/semestralnapraca_vamz/ui/SettingsMenu.kt,e\9\e9bde9968cba9f65f6a33095704a1d4bb28bc920
+t
+Dapp/src/main/java/com/example/semestralnapraca_vamz/ui/LegacyMenu.kt,6\4\6467a29fcc73f3b59f6257263c7e223dcacdc822

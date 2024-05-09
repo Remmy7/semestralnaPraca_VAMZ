@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.semestralnapraca_vamz.ui.MainMenu
+import com.example.semestralnapraca_vamz.ui.navController
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
@@ -39,6 +40,16 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    enum class IdleGameScreen {
+        MainMenu,
+        FightMenu,
+        SettingsMenu,
+        BlacksmithMenu,
+        UnitsMenu,
+        LegacyMenu
+    }
+
+
 
 
 }
