@@ -10,7 +10,7 @@ import com.example.semestralnapraca_vamz.MainActivity
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper
 
 
-class MainMenuViewModel(private val context: Context) : ViewModel() {
+class MainMenuViewModel(context: Context) : ViewModel() {
     private val _level = mutableIntStateOf(1)
     val level: MutableState<Int> = _level
 

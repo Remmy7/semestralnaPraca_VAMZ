@@ -14,8 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.semestralnapraca_vamz.ui.FightMenu
 import com.example.semestralnapraca_vamz.ui.MainMenu
-import com.example.semestralnapraca_vamz.ui.navController
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
@@ -32,10 +36,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
                     val isLandscape = remember {
                         resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                     }
-                    MainMenu(this, isLandscape)
+                    val context: Context = this
+                    NavHost(navController = navController, startDestination = "main_menu") {
+                        composable("main_menu") {
+                            MainMenu(context, isLandscape, navController)
+                        }
+                        composable("fight_menu") {
+                            FightMenu(context, isLandscape, navController)
+                        }
+                    }
                 }
             }
         }
@@ -48,8 +61,14 @@ class MainActivity : ComponentActivity() {
         UnitsMenu,
         LegacyMenu
     }
-
-
-
-
+    fun navigateTo(screen: IdleGameScreen, navController: NavHostController) {
+        when (screen) {
+            IdleGameScreen.BlacksmithMenu -> navController.navigate("blacksmith_menu")
+            IdleGameScreen.FightMenu -> navController.navigate("fight_menu")
+            IdleGameScreen.LegacyMenu -> navController.navigate("legacy_menu")
+            IdleGameScreen.MainMenu -> navController.navigate("main_menu")
+            IdleGameScreen.SettingsMenu -> navController.navigate("settings_menu")
+            IdleGameScreen.UnitsMenu -> navController.navigate("units_menu")
+        }
+    }
 }

@@ -14,57 +14,84 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.viewModels.FightMenuViewModel
 
 var landscape: Boolean = false
 @Composable
 fun FightMenu(
     context: Context,
-    isLandscape: Boolean
+    isLandscape: Boolean,
+    navController: NavController
 ) {
     val viewModel = FightMenuViewModel(context)
     landscape = isLandscape
-    FightMenuContent(isLandscape, viewModel)
+    FightMenuContent(isLandscape, viewModel, navController)
 }
 
 @Composable
 fun FightMenuContent(
     isLandscape: Boolean,
-    viewModel: FightMenuViewModel
+    viewModel: FightMenuViewModel,
+    navController: NavController
 ) {
     if (isLandscape) {
-        LandscapeLayout(viewModel)
+        LandscapeLayout(viewModel, navController)
     } else {
-        PortraitLayout(viewModel)
+        PortraitLayout(viewModel, navController)
     }
 }
 
 @Composable
 fun PortraitLayout(
-    viewModel: FightMenuViewModel
+    viewModel: FightMenuViewModel,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFB36800))
     ) {
-        Text(
-            text = "Fight!",
-            modifier = Modifier
-                .padding(bottom = 8.dp, top=8.dp)
-                .align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Text(
+                text = "Fight!",
+                modifier = Modifier
+                    .padding(bottom = 8.dp, top = 8.dp)
+                    .weight(1f)
+                    .wrapContentWidth(Alignment.CenterHorizontally),
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+            Button(
+                onClick = {
+                    navController.navigate("main_menu")
+                },
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                ) {
+                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+
+
+
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth()
-                .padding(start= 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp)
                 .background(Color(0xFF5C2402)),
             verticalArrangement = Arrangement.SpaceEvenly
         )
@@ -75,7 +102,7 @@ fun PortraitLayout(
             modifier = Modifier
                 .fillMaxHeight(0.15f)
                 .fillMaxWidth()
-                .padding(start= 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp)
                 .background(Color(0xFF5C2402)),
             verticalArrangement = Arrangement.SpaceEvenly
         )
@@ -91,14 +118,13 @@ fun PortraitLayout(
                 .background(Color(0xFF5C2402)),
         )
         {
-
-
+            monsterStats(viewModel, landscape)
         }
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(start=16.dp, end=16.dp, bottom=16.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .background(Color(0xFF5C2402)),
             verticalArrangement = Arrangement.SpaceEvenly
         )
@@ -109,6 +135,64 @@ fun PortraitLayout(
 
 
     }
+}
+@Composable
+fun monsterStats(
+    viewModel: FightMenuViewModel,
+    isLandscape: Boolean
+) {
+    val monsterName = viewModel.monsterName
+    val monsterLevel = viewModel.monsterLevel
+    val monsterHealth = viewModel.monsterHealth
+    val monsterMaxHealth = viewModel.monsterMaxHealth
+
+    if (isLandscape) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = monsterName,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                    color = Color.White
+                )
+                Text(
+                    text = monsterLevel.toString(),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column() {
+
+            }
+        }
+    } else {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = monsterName,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                    color = Color.White
+                )
+                Text(
+                    text = monsterLevel.toString(),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+
+
+            }
+        }
+    }
+
 }
     /*Column(
             modifier = Modifier
@@ -197,7 +281,8 @@ fun PortraitLayout(
 
 @Composable
 fun LandscapeLayout(
-    viewModel: FightMenuViewModel
+    viewModel: FightMenuViewModel,
+    navController: NavController
 ) {
 }
 
@@ -205,9 +290,10 @@ fun LandscapeLayout(
 @Composable
 fun FightMenuPreview() {
     val context = LocalContext.current
-
+    val navController = rememberNavController()
     FightMenu(
         context,
-        isLandscape = false
+        isLandscape = false,
+        navController
     )
 }

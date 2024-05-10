@@ -19,6 +19,7 @@ object SharedPreferencesHelper {
         val _monsterLevel = "monsterLevel"
         val _monsterHealth = "monsterHealth"
         val _monsterMaxHealth = "monsterMaxHealth"
+        val _monsterName = "monsterName"
 
         val _wizardLevel = "wizardLevel"
         val _wizardWeaponLevel = "wizardWeaponLevel"
@@ -77,6 +78,9 @@ object SharedPreferencesHelper {
 
     fun saveMonsterMaxHealth(preferenceHelper: SharedPreferences, monsterMaxHealth: Int) {
         preferenceHelper.edit().putInt(PreferenceHelper._monsterMaxHealth, monsterMaxHealth).apply()
+    }
+    fun saveMonsterName(preferenceHelper: SharedPreferences, monsterName: String) {
+        preferenceHelper.edit().putString(PreferenceHelper._monsterName, monsterName).apply()
     }
 
     fun saveWizardLevel(preferenceHelper: SharedPreferences, wizardLevel: Int) {
@@ -174,6 +178,9 @@ object SharedPreferencesHelper {
 
     fun getMonsterMaxHealth(preferenceHelper: SharedPreferences): Int {
         return preferenceHelper.getInt(PreferenceHelper._monsterMaxHealth, 0)
+    }
+    fun getMonsterName(preferenceHelper: SharedPreferences): String? {
+        return preferenceHelper.getString(PreferenceHelper._monsterName, "TempBoss")
     }
 
     fun getWizardLevel(preferenceHelper: SharedPreferences): Int {

@@ -35,18 +35,11 @@ var landscapeFight: Boolean = false
 @Composable
 fun MainMenu(
     context: Context,
-    isLandscape: Boolean
+    isLandscape: Boolean,
+    navController: NavController
 ) {
     landscapeFight = isLandscape
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = MainActivity.IdleGameScreen.MainMenu.name) {
-        composable("mainMenu") {
-            //MainMenu(context, landscapeFight) //doesn't work yet
-        }
-        composable("fightMenu") {
-            //FightMenu(context, landscapeFight)
-        }
-    }
+
 
     val viewModel = remember { MainMenuViewModel(context) }
 
@@ -56,7 +49,7 @@ fun MainMenu(
 
 
 
-    MainMenuContent(level, gold, legacy, isLandscape, viewModel, context)
+    MainMenuContent(level, gold, legacy, isLandscape, viewModel, context, navController)
 }
 
 @Composable
@@ -66,12 +59,13 @@ fun MainMenuContent(
     legacy: MutableState<Int>,
     isLandscape: Boolean,
     viewModel: MainMenuViewModel,
-    context: Context
+    context: Context,
+    navController: NavController
 ) {
     if (isLandscape) {
-        LandscapeLayout(level, gold, legacy, viewModel, context)
+        LandscapeLayout(level, gold, legacy, viewModel, context, navController)
     } else {
-        PortraitLayout(level, gold, legacy, viewModel, context)
+        PortraitLayout(level, gold, legacy, viewModel, context, navController)
     }
 }
 @Composable
@@ -81,7 +75,8 @@ fun LandscapeLayout(
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
     viewModel: MainMenuViewModel,
-    context: Context
+    context: Context,
+    navController: NavController
 ) {
     Row(
         modifier = Modifier
@@ -211,7 +206,8 @@ fun PortraitLayout(
     gold: MutableState<Int>,
     legacy: MutableState<Int>,
     viewModel: MainMenuViewModel,
-    context: Context
+    context: Context,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -236,7 +232,91 @@ fun PortraitLayout(
             StatsLayout(level = level, gold = gold, legacy = legacy)
         }
 
-        ButtonsLayout(isLandscape = false)
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color(0xFF5C2402)),
+            verticalArrangement = Arrangement.SpaceEvenly
+        )
+        {
+
+            Button(
+                onClick = {
+                    navController.navigate("fight_menu")
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.20f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFE21030),
+                    contentColor = Color.Black
+                ),
+                ) {
+                Text(text = "Fight", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.15f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF127891),
+                    contentColor = Color.Black
+                ),
+
+                ) {
+                Text(text = "Blacksmith", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.15f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF966304),
+                    contentColor = Color.Black
+                ),
+            ) {
+                Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.15f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFF8F804),
+                    contentColor = Color.Black
+                ),
+
+                ) {
+                Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.18f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF696262),
+                    contentColor = Color.Black
+                ),
+            ) {
+                Text(text = "Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+        }
     }
 }
 
@@ -273,156 +353,16 @@ fun StatItem(name: String, value: MutableState<Int>, color1: Color, color2: Colo
 }
 
 
-
-@Composable
-fun ButtonsLayout(isLandscape: Boolean) {
-    val buttonModifierPortrait = Modifier
-        .fillMaxWidth(0.7f)
-        .heightIn(min = 48.dp)
-    val buttonModifierLandscape = Modifier
-        .fillMaxWidth(0.7f)
-        .heightIn(min = 48.dp)
-    if (isLandscape) {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color(0xFF5C2402)),
-            verticalArrangement = Arrangement.SpaceEvenly,
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Button(
-                    onClick = {  },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF127891),
-                        contentColor = Color.Black
-                    ),
-
-
-                    ) {
-                    Text(text = "Blacksmith")
-                }
-
-                Button(
-                    onClick = {  },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF966304),
-                        contentColor = Color.Black
-                    ),
-
-                    ) {
-                    Text(text = "Units")
-                }
-            }
-
-        }
-
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color(0xFF5C2402)),
-            verticalArrangement = Arrangement.SpaceEvenly)
-        {
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.20f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFE21030),
-                    contentColor = Color.Black
-                ),
-
-
-                ) {
-                Text(text = "Fight", fontSize = 40.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF127891),
-                    contentColor = Color.Black
-                ),
-
-                ) {
-                Text(text = "Blacksmith", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF966304),
-                    contentColor = Color.Black
-                ),
-            ) {
-                Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF8F804),
-                    contentColor = Color.Black
-                ),
-
-                ) {
-                Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.18f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF696262),
-                    contentColor = Color.Black
-                ),
-            ) {
-                Text(text = "Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
 fun MainMenuPreview() {
     val context = LocalContext.current
+    val navController = rememberNavController()
 
     MainMenu(
         context,
-        isLandscape = false
+        isLandscape = false,
+        navController
     )
 }
 
