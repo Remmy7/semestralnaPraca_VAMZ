@@ -1,26 +1,41 @@
 package com.example.semestralnapraca_vamz.ui
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.viewModels.FightMenuViewModel
+import com.example.semestralnapraca_vamz.R
 
 var landscape: Boolean = false
 @Composable
@@ -29,7 +44,7 @@ fun FightMenu(
     isLandscape: Boolean,
     navController: NavController
 ) {
-    val viewModel = FightMenuViewModel(context)
+    val viewModel = remember { FightMenuViewModel(context) }
     landscape = isLandscape
     FightMenuContent(isLandscape, viewModel, navController)
 }
@@ -98,21 +113,10 @@ fun PortraitLayout(
         {
 
         }
+        spellButtons(viewModel, landscape)
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.15f)
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
-                .background(Color(0xFF5C2402)),
-            verticalArrangement = Arrangement.SpaceEvenly
-        )
-        {
-
-
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxHeight(0.3f)
+                .fillMaxHeight(0.4f)
                 .fillMaxWidth()
                 .padding(16.dp)
                 .background(Color(0xFF5C2402)),
@@ -129,7 +133,13 @@ fun PortraitLayout(
             verticalArrangement = Arrangement.SpaceEvenly
         )
         {
+            Button(
+                onClick = {
+                    viewModel.setMonsterStats(viewModel.monsterLevel.value + 1, viewModel.monsterHealth.value + 20, viewModel.monsterHealth.value + 100, "temp")
+                }
+            ) {
 
+            }
 
         }
 
@@ -145,24 +155,27 @@ fun monsterStats(
     val monsterLevel = viewModel.monsterLevel
     val monsterHealth = viewModel.monsterHealth
     val monsterMaxHealth = viewModel.monsterMaxHealth
+    val healthPercentage = (monsterHealth.value.toFloat() / monsterMaxHealth.value.toFloat())
+
 
     if (isLandscape) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+
             ) {
                 Text(
-                    text = monsterName,
+                    text = viewModel.monsterName.value,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+
                 )
                 Text(
                     text = monsterLevel.toString(),
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White,
-                    fontWeight = FontWeight.Bold
                 )
             }
             Column() {
@@ -171,113 +184,130 @@ fun monsterStats(
         }
     } else {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, top = 8.dp),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+
+
             ) {
                 Text(
-                    text = monsterName,
+                    text = viewModel.monsterName.value,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White
                 )
+                val levelText = buildAnnotatedString {
+                    append("Level: ")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(viewModel.monsterLevel.value.toString())
+                    }
+
+                }
                 Text(
-                    text = monsterLevel.toString(),
+                    text = levelText,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.weight(1f).padding(end=64.dp)
                 )
-
-
             }
         }
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.Gray)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(Brush.horizontalGradient(listOf(Color(0xFFFF0000),
+                                Color(0xFF66FF33))))
+                            .fillMaxWidth(healthPercentage)
+                            .fillMaxHeight()
+
+
+                    )
+                    Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
+                }
+
+
+                /*Text(
+                    text = "${monsterHealth.value} / ${monsterMaxHealth.value}",
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                    color = Color.White,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )*/
+            }
+        }
+
     }
 
 }
-    /*Column(
+
+@Composable
+fun spellButtons(
+    viewModel: FightMenuViewModel,
+    isLandscape: Boolean
+) {
+    if (isLandscape) {
+
+    } else {
+        Row(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxHeight(0.15f)
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp)
                 .background(Color(0xFF5C2402)),
-            verticalArrangement = Arrangement.SpaceEvenly)
+            horizontalArrangement = Arrangement.SpaceEvenly
+        )
         {
 
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.20f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFE21030),
-                    contentColor = Color.Black
-                ),
+            Image(
+                painter = painterResource(id = R.drawable.archer_spell),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+                    .weight(1f)
+                    .clickable { viewModel.castSpell("archer") },
+            )
+            Image(
+                painter = painterResource(id = R.drawable.archer_spell),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+                    .weight(1f)
+                    .clickable { viewModel.castSpell("wizard") },
+            )
+            Image(
+                painter = painterResource(id = R.drawable.archer_spell),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+                    .weight(1f)
+                    .clickable { viewModel.castSpell("paladin") },
+            )
+            Image(
+                painter = painterResource(id = R.drawable.archer_spell),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+                    .weight(1f)
+                    .clickable { viewModel.castSpell("knight") },
+            )
 
 
-                ) {
-                Text(text = "Fight", fontSize = 40.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF127891),
-                    contentColor = Color.Black
-                ),
-
-                ) {
-                Text(text = "Blacksmith", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF966304),
-                    contentColor = Color.Black
-                ),
-            ) {
-                Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
 
 
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF8F804),
-                    contentColor = Color.Black
-                ),
-
-                ) {
-                Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = {  },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.18f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF696262),
-                    contentColor = Color.Black
-                ),
-            ) {
-                Text(text = "Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-        }*/
+        }
+    }
+}
 
 @Composable
 fun LandscapeLayout(
@@ -285,6 +315,7 @@ fun LandscapeLayout(
     navController: NavController
 ) {
 }
+
 
 @Preview
 @Composable

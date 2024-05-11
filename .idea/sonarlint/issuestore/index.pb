@@ -148,3 +148,5 @@ v
 Fapp/src/main/java/com/example/semestralnapraca_vamz/ui/SettingsMenu.kt,e\9\e9bde9968cba9f65f6a33095704a1d4bb28bc920
 t
 Dapp/src/main/java/com/example/semestralnapraca_vamz/ui/LegacyMenu.kt,6\4\6467a29fcc73f3b59f6257263c7e223dcacdc822
+s
+Capp/src/main/java/com/example/semestralnapraca_vamz/MonsterNames.kt,1\2\127be6181bcb31f8b917cfd4fbc5fce7a93b5a22

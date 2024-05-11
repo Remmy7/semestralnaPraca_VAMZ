@@ -169,15 +169,15 @@ object SharedPreferencesHelper {
     }
 
     fun getMonsterLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._monsterLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._monsterLevel, 15)
     }
 
     fun getMonsterHealth(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._monsterHealth, 0)
+        return preferenceHelper.getInt(PreferenceHelper._monsterHealth, 300)
     }
 
     fun getMonsterMaxHealth(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._monsterMaxHealth, 0)
+        return preferenceHelper.getInt(PreferenceHelper._monsterMaxHealth, 600)
     }
     fun getMonsterName(preferenceHelper: SharedPreferences): String? {
         return preferenceHelper.getString(PreferenceHelper._monsterName, "TempBoss")
