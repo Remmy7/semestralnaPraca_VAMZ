@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.ui.FightMenu
+import com.example.semestralnapraca_vamz.ui.LegacyMenu
 import com.example.semestralnapraca_vamz.ui.MainMenu
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
@@ -47,6 +48,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("fight_menu") {
                             FightMenu(context, isLandscape, navController)
+                        }
+                        composable("legacy_menu") {
+                            LegacyMenu(context, isLandscape, navController)
                         }
                     }
                 }

@@ -289,7 +289,9 @@ fun PortraitLayout(
 
 
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate("legacy_menu")
+                },
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .fillMaxHeight(0.15f)

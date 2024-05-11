@@ -46,26 +46,28 @@ fun FightMenu(
 ) {
     val viewModel = remember { FightMenuViewModel(context) }
     landscape = isLandscape
-    FightMenuContent(isLandscape, viewModel, navController)
+    FightMenuContent(isLandscape, viewModel, navController, context)
 }
 
 @Composable
 fun FightMenuContent(
     isLandscape: Boolean,
     viewModel: FightMenuViewModel,
-    navController: NavController
+    navController: NavController,
+    context: Context
 ) {
     if (isLandscape) {
-        LandscapeLayout(viewModel, navController)
+        LandscapeLayout(viewModel, navController, context)
     } else {
-        PortraitLayout(viewModel, navController)
+        PortraitLayout(viewModel, navController, context)
     }
 }
 
 @Composable
 fun PortraitLayout(
     viewModel: FightMenuViewModel,
-    navController: NavController
+    navController: NavController,
+    context: Context
 ) {
     Column(
         modifier = Modifier
@@ -113,7 +115,7 @@ fun PortraitLayout(
         {
 
         }
-        spellButtons(viewModel, landscape)
+        spellButtons(viewModel, landscape, context)
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
@@ -257,7 +259,8 @@ fun monsterStats(
 @Composable
 fun spellButtons(
     viewModel: FightMenuViewModel,
-    isLandscape: Boolean
+    isLandscape: Boolean,
+    context: Context
 ) {
     if (isLandscape) {
 
@@ -277,28 +280,28 @@ fun spellButtons(
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
                     .weight(1f)
-                    .clickable { viewModel.castSpell("archer") },
+                    .clickable { viewModel.castSpell("archer", context) },
             )
             Image(
                 painter = painterResource(id = R.drawable.archer_spell),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
                     .weight(1f)
-                    .clickable { viewModel.castSpell("wizard") },
+                    .clickable { viewModel.castSpell("wizard", context) },
             )
             Image(
                 painter = painterResource(id = R.drawable.archer_spell),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
                     .weight(1f)
-                    .clickable { viewModel.castSpell("paladin") },
+                    .clickable { viewModel.castSpell("paladin", context) },
             )
             Image(
                 painter = painterResource(id = R.drawable.archer_spell),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
                     .weight(1f)
-                    .clickable { viewModel.castSpell("knight") },
+                    .clickable { viewModel.castSpell("knight", context) },
             )
 
 
@@ -311,7 +314,8 @@ fun spellButtons(
 @Composable
 fun LandscapeLayout(
     viewModel: FightMenuViewModel,
-    navController: NavController
+    navController: NavController,
+    context: Context
 ) {
 }
 

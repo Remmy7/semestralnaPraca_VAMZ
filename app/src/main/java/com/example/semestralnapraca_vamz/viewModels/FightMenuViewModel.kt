@@ -34,7 +34,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val logScalingFactor = 100
     private val baseMonsterHealth = 50
 
-    private val contextFightMenu: Context
+    //private val contextFightMenu: Context
 
 
 
@@ -46,12 +46,12 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         loadSavedData()
-        contextFightMenu = context
+        //contextFightMenu = context
 
         // Gamecycle timer
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) { // 1000 = interval of 1 second
             override fun onTick(millisUntilFinished: Long) {
-                updateGame();
+                updateGame(context);
             }
 
             override fun onFinish() {
@@ -108,7 +108,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     }
 
     // Casts a spell specified by the spell slot
-    fun castSpell(spellSlot: String) {
+    fun castSpell(spellSlot: String, context: Context) {
         when(spellSlot) {
             "archer" -> {
                 _monsterHealth.intValue -= 15
@@ -125,10 +125,10 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             }
 
         }
-        if (_monsterHealth.intValue <= 0) createNewMonster()
+        if (_monsterHealth.intValue <= 0) updateGame(context)
 
     }
-    fun updateGame() {
+    fun updateGame(context: Context) {
         val damage = calculateDamage()
         _monsterHealth.intValue -= damage
         if (_monsterHealth.intValue <= 0) {
@@ -139,7 +139,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveGold(pref, sharedPreferencesHelper.getGold(pref) + addedGold)
             sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
             //play deathsound
-            val mediaPlayer = MediaPlayer.create(contextFightMenu, DeathSounds.entries.toTypedArray().random().resID)
+            val mediaPlayer = MediaPlayer.create(context, DeathSounds.entries.toTypedArray().random().resID)
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release()
             }
