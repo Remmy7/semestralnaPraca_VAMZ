@@ -2,6 +2,7 @@ package com.example.semestralnapraca_vamz.viewModels
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.asIntState
@@ -11,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.semestralnapraca_vamz.MonsterPrefix
 import com.example.semestralnapraca_vamz.MonsterSuffix
+import com.example.semestralnapraca_vamz.R
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper.PreferenceHelper._gold
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper.PreferenceHelper._legacy
@@ -29,8 +31,10 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterName = mutableStateOf("TempBoss")
     val monsterName: MutableState<String> = _monsterName
 
-    private val logScalingFactor = 50
+    private val logScalingFactor = 100
     private val baseMonsterHealth = 50
+
+    private val contextFightMenu: Context
 
 
 
@@ -42,6 +46,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         loadSavedData()
+        contextFightMenu = context
 
         // Gamecycle timer
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) { // 1000 = interval of 1 second
@@ -107,6 +112,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         when(spellSlot) {
             "archer" -> {
                 _monsterHealth.intValue -= 15
+
             }
             "wizard" -> {
                 _monsterHealth.intValue -= 30
@@ -115,9 +121,12 @@ class FightMenuViewModel(context: Context) : ViewModel() {
                 _monsterHealth.intValue -= 45
             }
             "knight" -> {
-                _monsterHealth.intValue -= 60
+                _monsterHealth.intValue -= 20000
             }
+
         }
+        if (_monsterHealth.intValue <= 0) createNewMonster()
+
     }
     fun updateGame() {
         val damage = calculateDamage()
@@ -129,10 +138,23 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             val addedGold = (_monsterLevel.intValue * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
             sharedPreferencesHelper.saveGold(pref, sharedPreferencesHelper.getGold(pref) + addedGold)
             sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
+            //play deathsound
+            val mediaPlayer = MediaPlayer.create(contextFightMenu, DeathSounds.entries.toTypedArray().random().resID)
+            mediaPlayer.setOnCompletionListener {
+                mediaPlayer.release()
+            }
+            mediaPlayer.start()
+
         } else {
             sharedPreferencesHelper.saveMonsterHealth(pref, _monsterHealth.intValue)
         }
     }
+    enum class DeathSounds(val resID: Int){
+        ARCHDEMON(R.raw.archdemon_death),
+        CYCLOPS(R.raw.cyclops_death),
+        DEMONS(R.raw.demons_death),
+        GOBLINS(R.raw.goblins_death),
+        MEDUSA(R.raw.medusa_death)
 
-
+    }
 }

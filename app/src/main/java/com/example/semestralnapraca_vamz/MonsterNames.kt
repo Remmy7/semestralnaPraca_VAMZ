@@ -29,3 +29,4 @@ enum class MonsterSuffix(val suffix: String) {
     ABOMINATION("Abomination"),
     TERROR("Terror")
 }
+

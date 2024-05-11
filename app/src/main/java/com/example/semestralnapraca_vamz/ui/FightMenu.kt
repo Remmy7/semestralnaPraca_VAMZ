@@ -135,7 +135,6 @@ fun PortraitLayout(
         {
             Button(
                 onClick = {
-                    viewModel.setMonsterStats(viewModel.monsterLevel.value + 1, viewModel.monsterHealth.value + 20, viewModel.monsterHealth.value + 100, "temp")
                 }
             ) {
 
@@ -211,7 +210,7 @@ fun monsterStats(
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White,
                     textAlign = TextAlign.End,
-                    modifier = Modifier.weight(1f).padding(end=64.dp)
+                    modifier = Modifier.weight(1f).padding(end = 8.dp)
                 )
             }
         }

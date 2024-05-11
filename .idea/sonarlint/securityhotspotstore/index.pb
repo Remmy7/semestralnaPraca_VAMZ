@@ -150,3 +150,5 @@ t
 Dapp/src/main/java/com/example/semestralnapraca_vamz/ui/LegacyMenu.kt,6\4\6467a29fcc73f3b59f6257263c7e223dcacdc822
 s
 Capp/src/main/java/com/example/semestralnapraca_vamz/MonsterNames.kt,1\2\127be6181bcb31f8b917cfd4fbc5fce7a93b5a22
+…
+Uapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/LegacyMenuViewModel.kt,1\0\10465efb259f2865c5c5ad495b0d7b79851b90a6
