@@ -44,6 +44,7 @@ fun LegacyMenu(
     builder.setPositiveButton("YES") { dialog, which ->
         viewModel.resetGame()
         dialog.dismiss()
+        navController.navigate("main_menu")
     }
 
     builder.setNegativeButton("Decline") { dialog, which ->
@@ -60,52 +61,70 @@ fun LegacyMenuContent(
     navController: NavController,
     builder: AlertDialog.Builder
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFB36800))
-    ) {
-        Button(
-            onClick = {
-                navController.navigate("main_menu")
-            },
-            modifier = Modifier
-                .padding(end = 8.dp)
-        ) {
-            Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        }
+    if(isLandscape) {
+
+    } else {
         Column(
             modifier = Modifier
-                .fillMaxHeight(1f)
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom=16.dp)
-                .background(Color(0xFF5C2402)),
-            verticalArrangement = Arrangement.SpaceEvenly
-        )
-        {
+                .fillMaxSize()
+                .background(Color(0xFFB36800))
+        ) {
             Button(
                 onClick = {
-                    val dialog = builder.create()
-                    dialog.show()
+                    navController.navigate("main_menu")
                 },
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth()
-
+                    .padding(end = 8.dp)
+                    .align(Alignment.End)
             ) {
-                Text(text = "RESET GAME", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
-            Text(
-                text = "Legacy received: " + viewModel.legacyReceived.value,
+            Column(
                 modifier = Modifier
-                    .padding(bottom = 8.dp, top = 8.dp)
-                    .weight(1f)
-                    .wrapContentWidth(Alignment.CenterHorizontally),
-                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                    .fillMaxHeight(0.2f)
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .background(Color(0xFF5C2402)),
+                verticalArrangement = Arrangement.SpaceEvenly
             )
+            {
+
+                Text(
+                    text = "Legacy received: " + viewModel.legacyReceived.value,
+                    modifier = Modifier
+                        .padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
+                        .weight(1f)
+                        .wrapContentWidth(Alignment.CenterHorizontally),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+                Button(
+                    onClick = {
+                        val dialog = builder.create()
+                        dialog.show()
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.5f)
+                        .padding(bottom = 8.dp, top = 8.dp)
+
+                ) {
+                    Text(text = "RESET GAME", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight(1f)
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .background(Color(0xFF5C2402)),
+                verticalArrangement = Arrangement.SpaceEvenly
+            )
+            {
+
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ import com.example.semestralnapraca_vamz.SharedPreferencesHelper
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper.PreferenceHelper._gold
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper.PreferenceHelper._legacy
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper.PreferenceHelper._level
+import com.example.semestralnapraca_vamz.Spell
 
 class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterLevel = mutableIntStateOf(1)
@@ -36,6 +37,13 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
     //private val contextFightMenu: Context
 
+    val spells = listOf(
+        Spell(R.drawable.archer_spell, 20L, "archer"),
+        Spell(R.drawable.wizard_spell, 30L, "wizard"),
+        Spell(R.drawable.mystic_spell, 40L, "mystic"),
+        Spell(R.drawable.knight_spell, 50L, "knight"),
+        Spell(R.drawable.knight_spell, 50L, "knight")
+    )
 
 
     private val pref: SharedPreferences
@@ -109,10 +117,13 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
     // Casts a spell specified by the spell slot
     fun castSpell(spellSlot: String, context: Context) {
+        val spell = spells.find {it.spellSlot == spellSlot}
+        if (spell != null) {
+            spell.lastCastTime = System.currentTimeMillis()
+        }
         when(spellSlot) {
             "archer" -> {
                 _monsterHealth.intValue -= 15
-
             }
             "wizard" -> {
                 _monsterHealth.intValue -= 30
@@ -155,6 +166,11 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         DEMONS(R.raw.demons_death),
         GOBLINS(R.raw.goblins_death),
         MEDUSA(R.raw.medusa_death)
+    }
 
+    fun isSpellOnCooldown(spell: Spell): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val elapsedTime = currentTime - spell.lastCastTime
+        return elapsedTime < spell.cooldown
     }
 }

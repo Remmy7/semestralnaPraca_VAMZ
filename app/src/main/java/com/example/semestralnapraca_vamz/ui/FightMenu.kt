@@ -275,36 +275,22 @@ fun spellButtons(
         )
         {
 
-            Image(
-                painter = painterResource(id = R.drawable.archer_spell),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-                    .weight(1f)
-                    .clickable { viewModel.castSpell("archer", context) },
-            )
-            Image(
-                painter = painterResource(id = R.drawable.archer_spell),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-                    .weight(1f)
-                    .clickable { viewModel.castSpell("wizard", context) },
-            )
-            Image(
-                painter = painterResource(id = R.drawable.archer_spell),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-                    .weight(1f)
-                    .clickable { viewModel.castSpell("paladin", context) },
-            )
-            Image(
-                painter = painterResource(id = R.drawable.archer_spell),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-                    .weight(1f)
-                    .clickable { viewModel.castSpell("knight", context) },
-            )
-
-
+            for (spell in viewModel.spells) {
+                Image(
+                    painter = painterResource(id = spell.drawableResId),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                        .weight(1f)
+                        .clickable {
+                            // Check if the spell is on cooldown
+                            if (viewModel.isSpellOnCooldown(spell)) {
+                                // Handle cooldown logic
+                            } else {
+                                viewModel.castSpell(spell.spellSlot, context)
+                            }
+                        }
+                )
+            }
 
 
         }
