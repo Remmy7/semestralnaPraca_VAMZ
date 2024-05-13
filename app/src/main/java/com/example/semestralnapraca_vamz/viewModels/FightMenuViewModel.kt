@@ -7,9 +7,13 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.asIntState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import com.example.semestralnapraca_vamz.LogEntry
 import com.example.semestralnapraca_vamz.MonsterPrefix
 import com.example.semestralnapraca_vamz.MonsterSuffix
 import com.example.semestralnapraca_vamz.R
@@ -32,18 +36,26 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterName = mutableStateOf("TempBoss")
     val monsterName: MutableState<String> = _monsterName
 
-    private val logScalingFactor = 100
-    private val baseMonsterHealth = 50
+    private val logScalingFactor = 25
+    private val baseMonsterHealth = 5
+
+    private val cooldowns = mutableStateMapOf<String, MutableState<Long>>()
+    private val cooldownLefts = mutableStateMapOf<String, MutableState<Long>>()
+
+
 
     //private val contextFightMenu: Context
 
     val spells = listOf(
-        Spell(R.drawable.archer_spell, 20L, "archer"),
-        Spell(R.drawable.wizard_spell, 30L, "wizard"),
-        Spell(R.drawable.mystic_spell, 40L, "mystic"),
-        Spell(R.drawable.knight_spell, 50L, "knight"),
-        Spell(R.drawable.knight_spell, 50L, "knight")
+        Spell(R.drawable.archer_spell, 5L, "archer"),
+        Spell(R.drawable.wizard_spell, 10L, "wizard"),
+        Spell(R.drawable.mystic_spell, 15L, "mystic"),
+        Spell(R.drawable.knight_spell, 20L, "knight")
+        //Spell(R.drawable.knight_spell, 5000L, "knight")
     )
+
+
+    val logEntries = SnapshotStateList<LogEntry>()
 
 
     private val pref: SharedPreferences
@@ -55,11 +67,17 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         loadSavedData()
         //contextFightMenu = context
+        for (spell in spells) {
+            cooldowns[spell.spellSlot] = mutableStateOf(spell.cooldown)
+            cooldownLefts[spell.spellSlot] = mutableStateOf(spell.cooldownLeft)
+        }
 
         // Gamecycle timer
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) { // 1000 = interval of 1 second
             override fun onTick(millisUntilFinished: Long) {
                 updateGame(context);
+                updateSpellCooldowns(spells)
+
             }
 
             override fun onFinish() {
@@ -84,6 +102,9 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         _monsterHealth.intValue = sharedPreferencesHelper.getMonsterHealth(pref)
         _monsterMaxHealth.intValue = sharedPreferencesHelper.getMonsterMaxHealth(pref)
         _monsterName.value = sharedPreferencesHelper.getMonsterName(pref).toString()
+        val logEntries = {
+            LogEntry("temp", "temp",50, 50)
+        }
     }
 
     fun setMonsterStats(newLevel: Int, newHealth: Int, newMaxHealth: Int, newMonsterName: String) {
@@ -119,7 +140,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     fun castSpell(spellSlot: String, context: Context) {
         val spell = spells.find {it.spellSlot == spellSlot}
         if (spell != null) {
-            spell.lastCastTime = System.currentTimeMillis()
+            spell.cooldownLeft = spell.cooldown
         }
         when(spellSlot) {
             "archer" -> {
@@ -138,18 +159,23 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         }
         if (_monsterHealth.intValue <= 0) updateGame(context)
 
+
     }
     fun updateGame(context: Context) {
         val damage = calculateDamage()
         _monsterHealth.intValue -= damage
         if (_monsterHealth.intValue <= 0) {
-            // Monster death, generate a new one
-            createNewMonster()
             // Add stats to user
             val addedGold = (_monsterLevel.intValue * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
             sharedPreferencesHelper.saveGold(pref, sharedPreferencesHelper.getGold(pref) + addedGold)
             sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
-            //play deathsound
+            // Log monster death
+            val xpAmount = 50 + _monsterLevel.intValue
+            val entry = LogEntry("Killed ${monsterName.value}, received $xpAmount xp and $_gold gold", monsterName.value, xpAmount, 50)
+            addLogEntry(entry)
+            // Monster death, generate a new one
+            createNewMonster()
+            // Play deathsound
             val mediaPlayer = MediaPlayer.create(context, DeathSounds.entries.toTypedArray().random().resID)
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release()
@@ -160,17 +186,36 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveMonsterHealth(pref, _monsterHealth.intValue)
         }
     }
+
     enum class DeathSounds(val resID: Int){
         ARCHDEMON(R.raw.archdemon_death),
         CYCLOPS(R.raw.cyclops_death),
         DEMONS(R.raw.demons_death),
-        GOBLINS(R.raw.goblins_death),
-        MEDUSA(R.raw.medusa_death)
+        MEDUSA(R.raw.medusa_death),
+        GOBLINS(R.raw.goblins_death)
     }
 
     fun isSpellOnCooldown(spell: Spell): Boolean {
-        val currentTime = System.currentTimeMillis()
-        val elapsedTime = currentTime - spell.lastCastTime
-        return elapsedTime < spell.cooldown
+        return spell.cooldownLeft > 0L
+    }
+    fun updateSpellCooldowns(spells: List<Spell>) {
+        for (spell in spells) {
+            if (spell.cooldownLeft != 0L)  spell.cooldownLeft--
+
+            cooldownLefts[spell.spellSlot]?.value = spell.cooldownLeft
+        }
+    }
+    fun addLogEntry(entry: LogEntry) {
+        synchronized(logEntries) {
+            logEntries.add(entry)
+        }
+    }
+
+    fun getCooldown(spellSlot: String): MutableState<Long>? {
+        return cooldowns[spellSlot]
+    }
+
+    fun getCooldownLeft(spellSlot: String): MutableState<Long>? {
+        return cooldownLefts[spellSlot]
     }
 }

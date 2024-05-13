@@ -152,7 +152,7 @@ s
 Capp/src/main/java/com/example/semestralnapraca_vamz/MonsterNames.kt,1\2\127be6181bcb31f8b917cfd4fbc5fce7a93b5a22
 …
 Uapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/LegacyMenuViewModel.kt,1\0\10465efb259f2865c5c5ad495b0d7b79851b90a6
-o
-?app/src/main/java/com/example/semestralnapraca_vamz/ui/Spell.kt,a\5\a5c91ee73a59c7eaad5b40224faef288442db0a3
 l
 <app/src/main/java/com/example/semestralnapraca_vamz/Spell.kt,f\4\f44414a456790d473fdae14525d310685de19828
+o
+?app/src/main/java/com/example/semestralnapraca_vamz/LogEntry.kt,f\6\f641877e45b25e6df01bb384ca894d05948d767d
