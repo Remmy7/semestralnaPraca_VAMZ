@@ -41,6 +41,8 @@ object SharedPreferencesHelper {
         val _legacyKnightSpellLevel = "legacyKnightSpellLevel"
         val _legacyMysticLevel = "legacyMysticLevel"
         val _legacyMysticSpellLevel = "legacyMysticSpellLevel"
+
+        val _gameSpeed = "gameSpeed"
     }
 
     fun getSharedPreferences(context: Context): SharedPreferences {
@@ -154,6 +156,9 @@ object SharedPreferencesHelper {
     fun saveLegacyMysticSpellLevel(preferenceHelper: SharedPreferences, legacyMysticSpellLevel: Int) {
         preferenceHelper.edit().putInt(PreferenceHelper._legacyMysticSpellLevel, legacyMysticSpellLevel).apply()
     }
+    fun saveGameSpeed(preferenceHelper: SharedPreferences, gameSpeed: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._gameSpeed, gameSpeed).apply()
+    }
 
     // Get methods
     fun getLevel(preferenceHelper: SharedPreferences): Int {
@@ -259,5 +264,8 @@ object SharedPreferencesHelper {
 
     fun getLegacyMysticSpellLevel(preferenceHelper: SharedPreferences): Int {
         return preferenceHelper.getInt(PreferenceHelper._legacyMysticSpellLevel, 1)
+    }
+    fun getGameSpeed(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._gameSpeed, 1)
     }
 }

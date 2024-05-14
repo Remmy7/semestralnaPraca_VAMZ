@@ -3,6 +3,7 @@ package com.example.semestralnapraca_vamz.viewModels
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.CountDownTimer
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,9 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
     private val pref: SharedPreferences
     private val sharedPreferencesHelper: SharedPreferencesHelper
 
+    private val _currentLegacy = mutableIntStateOf(1)
+    val currentLegacy: MutableState<Int> = _currentLegacy
+
     private val _legacyReceived = mutableIntStateOf(1)
     val legacyReceived: MutableState<Int> = _legacyReceived
 
@@ -20,6 +24,7 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         _legacyReceived.intValue = calculateLegacy(false)
+        _currentLegacy.value = sharedPreferencesHelper.getLegacy(pref)
     }
     fun calculateLegacy(resetGame: Boolean) : Int {
         var calculatedLeg = 1.0f
@@ -52,5 +57,16 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
     }
     fun resetGame() {
         calculateLegacy(true)
+    }
+
+    fun speedUpgradePrice(): Int {
+        return sharedPreferencesHelper.getGameSpeed(pref) * 5
+    }
+    fun speedUpgrade() {
+        val price = speedUpgradePrice()
+        if (currentLegacy.value > price) {
+            currentLegacy.value -= price
+            sharedPreferencesHelper.saveLegacy(pref, sharedPreferencesHelper.getLegacy(pref) + 1)
+        }
     }
 }

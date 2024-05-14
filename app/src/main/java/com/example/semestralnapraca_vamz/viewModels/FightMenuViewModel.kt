@@ -40,9 +40,12 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterName = mutableStateOf("TempBoss")
     val monsterName: MutableState<String> = _monsterName
 
+
+
     private val logScalingFactor = 25
     private val exponentialScalingFactor = 1.7
     private val baseMonsterHealth = 10
+    private var gameSpeed = 1
 
     private val cooldowns = mutableStateMapOf<String, MutableState<Long>>()
     private val cooldownLefts = mutableStateMapOf<String, MutableState<Long>>()
@@ -79,7 +82,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         }
 
         // Gamecycle timer
-        countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) { // 1000 = interval of 1 second
+        countDownTimer = object : CountDownTimer(Long.MAX_VALUE, (1000 / gameSpeed).toLong()) { // 1000 = interval of 1 second
             override fun onTick(millisUntilFinished: Long) {
                 updateGame(context);
                 updateSpellCooldowns(spells)
@@ -108,6 +111,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         _monsterHealth.intValue = sharedPreferencesHelper.getMonsterHealth(pref)
         _monsterMaxHealth.intValue = sharedPreferencesHelper.getMonsterMaxHealth(pref)
         _monsterName.value = sharedPreferencesHelper.getMonsterName(pref).toString()
+        gameSpeed = sharedPreferencesHelper.getGameSpeed(pref)
 
     }
 
@@ -138,7 +142,22 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
     // Damage calculated every tick, does not overflow to new monster
     fun calculateDamage() : Int {
-        return 1
+        val multiplierWizard = 1.1;
+        val multiplierArcher = 1.3;
+        val multiplierMystic = 1.45;
+        val multiplierKnight = 1.8;
+        val multiplierPaladin = 2.1;
+        var returnVal = 1.0
+        returnVal +=
+            sharedPreferencesHelper.getArcherLevel(pref) * multiplierArcher +
+            sharedPreferencesHelper.getKnightLevel(pref) * multiplierKnight +
+            sharedPreferencesHelper.getMysticLevel(pref) * multiplierMystic +
+            sharedPreferencesHelper.getWizardLevel(pref) * multiplierWizard +
+            sharedPreferencesHelper.getPaladinLevel(pref) * multiplierPaladin
+        returnVal *= 2
+        returnVal *= 1 + (sharedPreferencesHelper.getLevel(pref)/100)
+        return returnVal.toInt()
+        //        return (levels*multiplier).toInt() + getUnitCurrLevel(unitName) * 2 * levels
     }
 
     // Casts a spell specified by the spell slot

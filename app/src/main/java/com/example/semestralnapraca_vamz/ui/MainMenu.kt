@@ -109,7 +109,7 @@ fun LandscapeLayout(
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                  viewModel.setLevel(level.value + 1)
+                    navController.navigate("fight_menu")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
