@@ -2,9 +2,12 @@ package com.example.semestralnapraca_vamz.viewModels
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import com.example.semestralnapraca_vamz.R
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper
 
 class UnitsMenuViewModel(context: Context) : ViewModel() {
@@ -27,7 +30,11 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
     val knightLevel: MutableState<Int> = _knightLevel
     private val _paladinLevel = mutableIntStateOf(3)
     val paladinLevel: MutableState<Int> = _paladinLevel
+    private val _gold = mutableIntStateOf(500)
+    val gold: MutableState<Int> = _gold
 
+
+    private val contextxd = context
     private val pref: SharedPreferences
     private val sharedPreferencesHelper: SharedPreferencesHelper
 
@@ -53,6 +60,7 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         _mysticLevel.intValue = sharedPreferencesHelper.getMysticLevel(pref)
         _knightLevel.intValue = sharedPreferencesHelper.getKnightLevel(pref)
         _paladinLevel.intValue = sharedPreferencesHelper.getPaladinLevel(pref)
+        _gold.intValue = sharedPreferencesHelper.getGold(pref)
     }
 
     fun calculatePriceOneUnit(unitName: String, unitLevel: Int): Double {
@@ -76,15 +84,22 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
             "knight" -> multiplier = multiplierKnight
             "paladin" -> multiplier = multiplierPaladin
         }
-        var index = 0
-        var currDamage = 1.0
+
+        /*var currDamage = 1.0
         var totalDamage = 1.0
-        repeat (levels) {
-            if (index < currLevel) currDamage *= multiplier
-            totalDamage *= multiplier
+        var index = 0
+         repeat (currLevel + levels) {
+            if (index < currLevel) {
+                currDamage = Math.pow(currDamage, multiplier)
+            }
+            else {
+                if (totalDamage == 1.0) totalDamage=currDamage
+                totalDamage = Math.pow(totalDamage, multiplier)
+            }
             index++
         }
-        return (totalDamage-currDamage).toInt()
+        return (totalDamage-currDamage).toInt()*/
+        return (levels*multiplier).toInt() + getUnitCurrLevel(unitName) * 2 * levels
     }
 
     fun calculatePriceLoop(unitName: String, howMany: Int): Int {
@@ -96,35 +111,51 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         }
         return returnVal.toInt()
     }
+    // Too slow
     fun calculateMaxPurcharsable(unitName: String): Pair<Int, Int> {
-        var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()
+        return Pair(1,1)
+    }
+        /*var totalGold = sharedPreferencesHelper.getGold(pref).toDouble()
+        var currentGold = totalGold
+
         var currLevel = getUnitCurrLevel(unitName)
         var purcharsable = 0
         var totalPrice = 0.0
 
-        while (currentGold < totalPrice) {
+        while (currentGold > 0) {
             purcharsable++
             totalPrice += calculatePriceOneUnit(unitName, currLevel)
             currLevel++
         }
-        if (totalPrice != currentGold) {
-            totalPrice -= calculatePriceOneUnit(unitName, currLevel-1)
+        if (totalPrice > totalGold ) {
+            totalPrice -= calculatePriceOneUnit(unitName, currLevel)
             purcharsable--
-            currLevel--
         }
         return Pair(totalPrice.toInt(), purcharsable.toInt())
-    }
+    }*/
 
     fun buyAmountOfUnits(unitName: String, amount: Int) {
         var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()
         var unitLevelCurr = getUnitCurrLevel(unitName)
-        when(unitName) {
-            "wizard" -> {sharedPreferencesHelper.saveWizardLevel(pref, unitLevelCurr + amount); _wizardLevel.intValue += amount}
-            "archer" -> {sharedPreferencesHelper.saveArcherLevel(pref, unitLevelCurr + amount); _archerLevel.intValue += amount}
-            "mystic" -> {sharedPreferencesHelper.saveMysticLevel(pref, unitLevelCurr + amount); _mysticLevel.intValue += amount}
-            "knight" -> {sharedPreferencesHelper.saveKnightLevel(pref, unitLevelCurr + amount); _knightLevel.intValue += amount}
-            "paladin" -> {sharedPreferencesHelper.savePaladinLevel(pref, unitLevelCurr + amount); _paladinLevel.intValue += amount}
+        var price = calculatePriceLoop(unitName, amount)
+        if(currentGold >= price) {
+            when(unitName) {
+                "wizard" -> {sharedPreferencesHelper.saveWizardLevel(pref, unitLevelCurr + amount); _wizardLevel.intValue += amount}
+                "archer" -> {sharedPreferencesHelper.saveArcherLevel(pref, unitLevelCurr + amount); _archerLevel.intValue += amount}
+                "mystic" -> {sharedPreferencesHelper.saveMysticLevel(pref, unitLevelCurr + amount); _mysticLevel.intValue += amount}
+                "knight" -> {sharedPreferencesHelper.saveKnightLevel(pref, unitLevelCurr + amount); _knightLevel.intValue += amount}
+                "paladin" -> {sharedPreferencesHelper.savePaladinLevel(pref, unitLevelCurr + amount); _paladinLevel.intValue += amount}
+            }
+            sharedPreferencesHelper.saveGold(pref, currentGold.toInt() - price)
+            gold.value = currentGold.toInt() - price
+        } else {
+            val mediaPlayer = MediaPlayer.create(contextxd, R.raw.error_sound)
+            mediaPlayer.setOnCompletionListener {
+                mediaPlayer.release()
+            }
+            mediaPlayer.start()
         }
+
     }
 
     fun getUnitCurrLevel(unitName: String): Int {

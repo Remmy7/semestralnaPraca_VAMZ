@@ -31,7 +31,8 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.getLevel(pref) +
             sharedPreferencesHelper.getMonsterLevel(pref) +
             sharedPreferencesHelper.getMysticLevel(pref) +
-            sharedPreferencesHelper.getWizardLevel(pref)) / baseCalc - 1
+            sharedPreferencesHelper.getWizardLevel(pref) +
+            sharedPreferencesHelper.getPaladinLevel(pref)) / baseCalc - 1
 
         if (resetGame) {
             sharedPreferencesHelper.saveMonsterLevel(pref, 1)
@@ -44,6 +45,7 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveWizardLevel(pref, 1)
             sharedPreferencesHelper.saveMysticLevel(pref, 1)
             sharedPreferencesHelper.saveKnightLevel(pref, 1)
+            sharedPreferencesHelper.savePaladinLevel(pref, 1)
 
         }
         return calculatedLeg.toInt()
