@@ -1,19 +1,13 @@
 package com.example.semestralnapraca_vamz.ui
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -32,25 +25,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.semestralnapraca_vamz.R
+import com.example.semestralnapraca_vamz.viewModels.FightMenuViewModel
 import com.example.semestralnapraca_vamz.viewModels.SpellUpgradeMenuViewModel
-import com.example.semestralnapraca_vamz.viewModels.UnitsMenuViewModel
-
 
 @Composable
-fun UnitsMenu(
+fun SpellUpgradeMenu(
     context: Context,
     isLandscape: Boolean,
     navController: NavController
 ) {
-    val viewModel = remember { UnitsMenuViewModel(context) }
-    UnitsMenuContent(isLandscape, viewModel, navController, context)
+    val viewModel = remember { SpellUpgradeMenuViewModel(context) }
+    SpellUpgradeMenuContent(isLandscape, viewModel, navController, context)
 }
 
 @Composable
-fun UnitsMenuContent(
+fun SpellUpgradeMenuContent(
     isLandscape: Boolean,
-    viewModel: UnitsMenuViewModel,
+    viewModel: SpellUpgradeMenuViewModel,
     navController: NavController,
     context: Context
 ) {
@@ -63,7 +54,7 @@ fun UnitsMenuContent(
 
 @Composable
 fun PortraitLayout(
-    viewModel: UnitsMenuViewModel,
+    viewModel: SpellUpgradeMenuViewModel,
     navController: NavController,
     context: Context
 ) {
@@ -78,7 +69,7 @@ fun PortraitLayout(
 
         ) {
             Text(
-                text = "Upgrade your units",
+                text = "Upgrade your spells",
                 modifier = Modifier
                     .padding(bottom = 8.dp, top = 8.dp)
                     .weight(1f)
@@ -98,59 +89,30 @@ fun PortraitLayout(
                 Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFB36800))
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight(0.65f)
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
-                    .background(Color(0xFF5C2402)),
-                verticalArrangement = Arrangement.SpaceEvenly
-            )
-            {
-
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .background(Color(0xFF5C2402)),
-                verticalArrangement = Arrangement.SpaceEvenly
-            )
-            {
-
-            }
-        }
     }
 
 }
 
 @Composable
 fun LandscapeLayout(
-    viewModel: UnitsMenuViewModel,
+    viewModel: SpellUpgradeMenuViewModel,
     navController: NavController,
     context: Context
-) {Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .background(Color(0xFFB36800))
 ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFB36800))
+    ) {
+    }
 
 }
-
-}
-
 @Preview
 @Composable
-fun UnitsMenuPreview() {
+fun SpellUpgradeMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
-    UnitsMenu(
+    SpellUpgradeMenu(
         context,
         isLandscape = false,
         navController
@@ -159,10 +121,10 @@ fun UnitsMenuPreview() {
 
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 720, heightDp = 360)
 @Composable
-fun UnitsMenuPreviewLandscape() {
+fun SpellUpgradeMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
-    UnitsMenu(
+    SpellUpgradeMenu(
         context,
         isLandscape = true,
         navController

@@ -12,6 +12,10 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.ViewModel
 import com.example.semestralnapraca_vamz.LogEntry
 import com.example.semestralnapraca_vamz.MonsterPrefix
@@ -37,7 +41,8 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     val monsterName: MutableState<String> = _monsterName
 
     private val logScalingFactor = 25
-    private val baseMonsterHealth = 5
+    private val exponentialScalingFactor = 1.7
+    private val baseMonsterHealth = 10
 
     private val cooldowns = mutableStateMapOf<String, MutableState<Long>>()
     private val cooldownLefts = mutableStateMapOf<String, MutableState<Long>>()
@@ -50,7 +55,8 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         Spell(R.drawable.archer_spell, 5L, "archer"),
         Spell(R.drawable.wizard_spell, 10L, "wizard"),
         Spell(R.drawable.mystic_spell, 15L, "mystic"),
-        Spell(R.drawable.knight_spell, 20L, "knight")
+        Spell(R.drawable.knight_spell, 0L, "knight"),
+        Spell(R.drawable.paladin_spell, 25L, "paladin")
         //Spell(R.drawable.knight_spell, 5000L, "knight")
     )
 
@@ -102,15 +108,13 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         _monsterHealth.intValue = sharedPreferencesHelper.getMonsterHealth(pref)
         _monsterMaxHealth.intValue = sharedPreferencesHelper.getMonsterMaxHealth(pref)
         _monsterName.value = sharedPreferencesHelper.getMonsterName(pref).toString()
-        val logEntries = {
-            LogEntry("temp", "temp",50, 50)
-        }
+
     }
 
     fun setMonsterStats(newLevel: Int, newHealth: Int, newMaxHealth: Int, newMonsterName: String) {
         _monsterLevel.intValue = newLevel
-        _monsterHealth.value = newHealth
-        _monsterMaxHealth.value = newMaxHealth
+        _monsterHealth.intValue = newHealth
+        _monsterMaxHealth.intValue = newMaxHealth
         _monsterName.value = newMonsterName
         sharedPreferencesHelper.saveMonsterLevel(pref, newLevel)
         sharedPreferencesHelper.saveMonsterHealth(pref, newHealth)
@@ -119,8 +123,9 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     }
 
     fun createNewMonster() {
-        val newMaxHealth = (baseMonsterHealth * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
-        setMonsterStats(_monsterLevel.value + 1, newMaxHealth, newMaxHealth, generateMonsterName())
+        //val newMaxHealth = (baseMonsterHealth * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
+        val newMaxHealth = Math.pow(baseMonsterHealth * (_monsterLevel.intValue + 1).toDouble(), exponentialScalingFactor).toInt()
+        setMonsterStats(_monsterLevel.intValue + 1, newMaxHealth, newMaxHealth, generateMonsterName())
     }
 
 
@@ -149,11 +154,14 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             "wizard" -> {
                 _monsterHealth.intValue -= 30
             }
+            "mystic" -> {
+                _monsterHealth.intValue -= 45
+            }
             "paladin" -> {
                 _monsterHealth.intValue -= 45
             }
             "knight" -> {
-                _monsterHealth.intValue -= 20000
+                _monsterHealth.intValue -= 9999999
             }
 
         }
@@ -171,7 +179,24 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
             // Log monster death
             val xpAmount = 50 + _monsterLevel.intValue
-            val entry = LogEntry("Killed ${monsterName.value}, received $xpAmount xp and $_gold gold", monsterName.value, xpAmount, 50)
+            val coloredString = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Red)) {
+                    append(monsterName.value)
+                }
+                withStyle(style = SpanStyle(color = Color.White)) {
+                    append(", received ")
+                }
+                withStyle(style = SpanStyle(color = Color.Green)) {
+                    append("$xpAmount xp ")
+                }
+                withStyle(style = SpanStyle(color = Color.White)) {
+                    append("and ")
+                }
+                withStyle(style = SpanStyle(color = Color.Yellow)) {
+                    append("$addedGold gold")
+                }
+            }
+            val entry = LogEntry(coloredString, monsterName.value, xpAmount, addedGold)
             addLogEntry(entry)
             // Monster death, generate a new one
             createNewMonster()
@@ -183,6 +208,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             mediaPlayer.start()
 
         } else {
+            if (_monsterHealth.intValue > _monsterMaxHealth.intValue) _monsterHealth.intValue = _monsterMaxHealth.intValue
             sharedPreferencesHelper.saveMonsterHealth(pref, _monsterHealth.intValue)
         }
     }

@@ -22,25 +22,25 @@ object SharedPreferencesHelper {
         val _monsterName = "monsterName"
 
         val _wizardLevel = "wizardLevel"
-        val _wizardWeaponLevel = "wizardWeaponLevel"
+        val _wizardSpellLevel = "wizardSpellLevel"
         val _archerLevel = "archerLevel"
-        val _archerWeaponLevel = "archerWeaponLevel"
+        val _archerSpellLevel = "archerSpellLevel"
         val _knightLevel = "knightLevel"
-        val _knightWeaponLevel = "knightWeaponLevel"
+        val _knightSpellLevel = "knightSpellLevel"
         val _mysticLevel = "mysticLevel"
-        val _mysticWeaponLevel = "mysticWeaponLevel"
+        val _mysticSpellLevel = "mysticSpellLevel"
+        val _paladinLevel = "paladinLevel"
+        val _paladinSpellLevel = "paladinSpellLevel"
 
-    }
 
-    object PreferenceHelperLegacy {
         val _legacyWizardLevel = "legacyWizardLevel"
-        val _legacyWizardWeaponLevel = "legacyWizardWeaponLevel"
+        val _legacyWizardSpellLevel = "legacyWizardSpellLevel"
         val _legacyArcherLevel = "legacyArcherLevel"
-        val _legacyArcherWeaponLevel = "legacyArcherWeaponLevel"
+        val _legacyArcherSpellLevel = "legacyArcherSpellLevel"
         val _legacyKnightLevel = "legacyKnightLevel"
-        val _legacyKnightWeaponLevel = "legacyKnightWeaponLevel"
+        val _legacyKnightSpellLevel = "legacyKnightSpellLevel"
         val _legacyMysticLevel = "legacyMysticLevel"
-        val _legacyMysticWeaponLevel = "legacyMysticWeaponLevel"
+        val _legacyMysticSpellLevel = "legacyMysticSpellLevel"
     }
 
     fun getSharedPreferences(context: Context): SharedPreferences {
@@ -87,64 +87,72 @@ object SharedPreferencesHelper {
         preferenceHelper.edit().putInt(PreferenceHelper._wizardLevel, wizardLevel).apply()
     }
 
-    fun saveWizardWeaponLevel(preferenceHelper: SharedPreferences, wizardWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelper._wizardWeaponLevel, wizardWeaponLevel).apply()
+    fun saveWizardSpellLevel(preferenceHelper: SharedPreferences, wizardSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._wizardSpellLevel, wizardSpellLevel).apply()
     }
 
     fun saveArcherLevel(preferenceHelper: SharedPreferences, archerLevel: Int) {
         preferenceHelper.edit().putInt(PreferenceHelper._archerLevel, archerLevel).apply()
     }
 
-    fun saveArcherWeaponLevel(preferenceHelper: SharedPreferences, archerWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelper._archerWeaponLevel, archerWeaponLevel).apply()
+    fun saveArcherSpellLevel(preferenceHelper: SharedPreferences, archerSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._archerSpellLevel, archerSpellLevel).apply()
     }
 
     fun saveKnightLevel(preferenceHelper: SharedPreferences, knightLevel: Int) {
         preferenceHelper.edit().putInt(PreferenceHelper._knightLevel, knightLevel).apply()
     }
 
-    fun saveKnightWeaponLevel(preferenceHelper: SharedPreferences, knightWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelper._knightWeaponLevel, knightWeaponLevel).apply()
+    fun saveKnightSpellLevel(preferenceHelper: SharedPreferences, knightSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._knightSpellLevel, knightSpellLevel).apply()
+    }
+
+    fun savePaladinLevel(preferenceHelper: SharedPreferences, knightLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._paladinLevel, knightLevel).apply()
+    }
+
+    fun savePaladinSpellLevel(preferenceHelper: SharedPreferences, knightSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._paladinSpellLevel, knightSpellLevel).apply()
     }
 
     fun saveMysticLevel(preferenceHelper: SharedPreferences, mysticLevel: Int) {
         preferenceHelper.edit().putInt(PreferenceHelper._mysticLevel, mysticLevel).apply()
     }
 
-    fun saveMysticWeaponLevel(preferenceHelper: SharedPreferences, mysticWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelper._mysticWeaponLevel, mysticWeaponLevel).apply()
+    fun saveMysticSpellLevel(preferenceHelper: SharedPreferences, mysticSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._mysticSpellLevel, mysticSpellLevel).apply()
     }
 
     fun saveLegacyWizardLevel(preferenceHelper: SharedPreferences, legacyWizardLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyWizardLevel, legacyWizardLevel).apply()
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyWizardLevel, legacyWizardLevel).apply()
     }
 
-    fun saveLegacyWizardWeaponLevel(preferenceHelper: SharedPreferences, legacyWizardWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyWizardWeaponLevel, legacyWizardWeaponLevel).apply()
+    fun saveLegacyWizardSpellLevel(preferenceHelper: SharedPreferences, legacyWizardSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyWizardSpellLevel, legacyWizardSpellLevel).apply()
     }
 
     fun saveLegacyArcherLevel(preferenceHelper: SharedPreferences, legacyArcherLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyArcherLevel, legacyArcherLevel).apply()
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyArcherLevel, legacyArcherLevel).apply()
     }
 
-    fun saveLegacyArcherWeaponLevel(preferenceHelper: SharedPreferences, legacyArcherWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyArcherWeaponLevel, legacyArcherWeaponLevel).apply()
+    fun saveLegacyArcherSpellLevel(preferenceHelper: SharedPreferences, legacyArcherSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyArcherSpellLevel, legacyArcherSpellLevel).apply()
     }
 
     fun saveLegacyKnightLevel(preferenceHelper: SharedPreferences, legacyKnightLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyKnightLevel, legacyKnightLevel).apply()
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyKnightLevel, legacyKnightLevel).apply()
     }
 
-    fun saveLegacyKnightWeaponLevel(preferenceHelper: SharedPreferences, legacyKnightWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyKnightWeaponLevel, legacyKnightWeaponLevel).apply()
+    fun saveLegacyKnightSpellLevel(preferenceHelper: SharedPreferences, legacyKnightSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyKnightSpellLevel, legacyKnightSpellLevel).apply()
     }
 
     fun saveLegacyMysticLevel(preferenceHelper: SharedPreferences, legacyMysticLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyMysticLevel, legacyMysticLevel).apply()
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyMysticLevel, legacyMysticLevel).apply()
     }
 
-    fun saveLegacyMysticWeaponLevel(preferenceHelper: SharedPreferences, legacyMysticWeaponLevel: Int) {
-        preferenceHelper.edit().putInt(PreferenceHelperLegacy._legacyMysticWeaponLevel, legacyMysticWeaponLevel).apply()
+    fun saveLegacyMysticSpellLevel(preferenceHelper: SharedPreferences, legacyMysticSpellLevel: Int) {
+        preferenceHelper.edit().putInt(PreferenceHelper._legacyMysticSpellLevel, legacyMysticSpellLevel).apply()
     }
 
     // Get methods
@@ -153,11 +161,11 @@ object SharedPreferencesHelper {
     }
 
     fun getCurrentExperience(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._currentExperience, 0)
+        return preferenceHelper.getInt(PreferenceHelper._currentExperience, 1)
     }
 
     fun getLevelUpExperience(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._levelUpExperience, 0)
+        return preferenceHelper.getInt(PreferenceHelper._levelUpExperience, 1)
     }
 
     fun getGold(preferenceHelper: SharedPreferences): Int {
@@ -165,7 +173,7 @@ object SharedPreferencesHelper {
     }
 
     fun getLegacy(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._legacy, 0)
+        return preferenceHelper.getInt(PreferenceHelper._legacy, 1)
     }
 
     fun getMonsterLevel(preferenceHelper: SharedPreferences): Int {
@@ -184,66 +192,72 @@ object SharedPreferencesHelper {
     }
 
     fun getWizardLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._wizardLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._wizardLevel, 1)
     }
 
-    fun getWizardWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._wizardWeaponLevel, 0)
+    fun getWizardSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._wizardSpellLevel, 1)
     }
 
     fun getArcherLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._archerLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._archerLevel, 1)
     }
 
-    fun getArcherWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._archerWeaponLevel, 0)
+    fun getArcherSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._archerSpellLevel, 1)
     }
 
     fun getKnightLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._knightLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._knightLevel, 1)
+    }
+    fun getPaladinLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._paladinLevel, 1)
     }
 
-    fun getKnightWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._knightWeaponLevel, 0)
+    fun getKnightSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._knightSpellLevel, 1)
+    }
+    fun getPaladinSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._paladinSpellLevel, 1)
     }
 
     fun getMysticLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._mysticLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._mysticLevel, 1)
     }
 
-    fun getMysticWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._mysticWeaponLevel, 0)
+    fun getMysticSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._mysticSpellLevel, 1)
     }
 
     fun getLegacyWizardLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyWizardLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._legacyWizardLevel, 1)
     }
 
-    fun getLegacyWizardWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyWizardWeaponLevel, 0)
+    fun getLegacyWizardSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._legacyWizardSpellLevel, 1)
     }
 
     fun getLegacyArcherLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyArcherLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._legacyArcherLevel, 1)
     }
 
-    fun getLegacyArcherWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyArcherWeaponLevel, 0)
+    fun getLegacyArcherSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._legacyArcherSpellLevel, 1)
     }
 
     fun getLegacyKnightLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyKnightLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._legacyKnightLevel, 1)
     }
 
-    fun getLegacyKnightWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyKnightWeaponLevel, 0)
+    fun getLegacyKnightSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._legacyKnightSpellLevel, 1)
     }
 
     fun getLegacyMysticLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyMysticLevel, 0)
+        return preferenceHelper.getInt(PreferenceHelper._legacyMysticLevel, 1)
     }
 
-    fun getLegacyMysticWeaponLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelperLegacy._legacyMysticWeaponLevel, 0)
+    fun getLegacyMysticSpellLevel(preferenceHelper: SharedPreferences): Int {
+        return preferenceHelper.getInt(PreferenceHelper._legacyMysticSpellLevel, 1)
     }
 }

@@ -140,12 +140,8 @@ s
 Capp/src/main/java/com/example/semestralnapraca_vamz/ui/FightMenu.kt,4\2\42ce77e2fd21126bbbdc3fcdaeb74b66eecd71df
 „
 Tapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/FightMenuViewModel.kt,0\8\08be593cb35a5da924f0bab26eac3f64d443f777
-x
-Happ/src/main/java/com/example/semestralnapraca_vamz/ui/BlacksmithMenu.kt,5\3\539770ad4ace941fd808c6f9c80ba6bc39455e1a
 s
 Capp/src/main/java/com/example/semestralnapraca_vamz/ui/UnitsMenu.kt,b\5\b52f289d39c42ca77d937f18da9aee621b0ffc6b
-v
-Fapp/src/main/java/com/example/semestralnapraca_vamz/ui/SettingsMenu.kt,e\9\e9bde9968cba9f65f6a33095704a1d4bb28bc920
 t
 Dapp/src/main/java/com/example/semestralnapraca_vamz/ui/LegacyMenu.kt,6\4\6467a29fcc73f3b59f6257263c7e223dcacdc822
 s
@@ -156,3 +152,9 @@ l
 <app/src/main/java/com/example/semestralnapraca_vamz/Spell.kt,f\4\f44414a456790d473fdae14525d310685de19828
 o
 ?app/src/main/java/com/example/semestralnapraca_vamz/LogEntry.kt,f\6\f641877e45b25e6df01bb384ca894d05948d767d
+„
+Tapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/UnitsMenuViewModel.kt,4\f\4fa211444c56eb9a0aa921a153e05096653cd0bb
+‹
+[app/src/main/java/com/example/semestralnapraca_vamz/viewModels/SpellUpgradeMenuViewModel.kt,d\d\dd037ad8659700650ac22d74c3300a60a7d7bc19
+z
+Japp/src/main/java/com/example/semestralnapraca_vamz/ui/SpellUpgradeMenu.kt,c\5\c512c78e3af15dc42159bf0b322b5e627a45767d

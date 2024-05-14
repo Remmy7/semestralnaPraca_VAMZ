@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -140,24 +141,14 @@ fun LandscapeLayout(
                 verticalArrangement = Arrangement.SpaceEvenly,
 
                 ) {
+
                 Button(
-                    onClick = {  },
+                    onClick = {
+                        navController.navigate("units_menu")
+                    },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .fillMaxHeight(0.15f)
-                        .align(Alignment.CenterHorizontally),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF127891),
-                        contentColor = Color.Black
-                    ),
-                ) {
-                    Text(text = "Blacksmith", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                }
-                Button(
-                    onClick = {  },
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .fillMaxHeight(0.2f)
                         .align(Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF966304),
@@ -167,12 +158,30 @@ fun LandscapeLayout(
                     Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
 
-
                 Button(
-                    onClick = {  },
+                    onClick = {
+                        navController.navigate("spell_upgrade_menu")
+                    },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .fillMaxHeight(0.2f)
+                        .align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF127891),
+                        contentColor = Color.Black
+                    ),
+                ) {
+                    Text(text = "Spells", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                }
+
+
+                Button(
+                    onClick = {
+                        navController.navigate("legacy_menu")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .fillMaxHeight(0.23f)
                         .align(Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFF8F804),
@@ -181,20 +190,6 @@ fun LandscapeLayout(
 
                     ) {
                     Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                }
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .fillMaxHeight(0.25f)
-                        .fillMaxWidth(0.9f)
-                        .align(Alignment.CenterHorizontally),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF696262),
-                        contentColor = Color.Black
-                    ),
-                ) {
-                    Text(text = "Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -258,23 +253,12 @@ fun PortraitLayout(
                 Text(text = "Fight", fontSize = 40.sp, fontWeight = FontWeight.Bold)
             }
 
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF127891),
-                    contentColor = Color.Black
-                ),
 
-                ) {
-                Text(text = "Blacksmith", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
 
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate("units_menu")
+                },
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .fillMaxHeight(0.15f)
@@ -287,6 +271,23 @@ fun PortraitLayout(
                 Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
+            Button(
+                onClick = {
+                    navController.navigate("spell_upgrade_menu")
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.15f)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF127891),
+                    contentColor = Color.Black
+                ),
+
+                ) {
+                Text(text = "Spells", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+
 
             Button(
                 onClick = {
@@ -294,7 +295,7 @@ fun PortraitLayout(
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.15f)
+                    .fillMaxHeight(0.18f)
                     .align(Alignment.CenterHorizontally),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFF8F804),
@@ -303,20 +304,6 @@ fun PortraitLayout(
 
                 ) {
                 Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.18f)
-                    .align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF696262),
-                    contentColor = Color.Black
-                ),
-            ) {
-                Text(text = "Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -364,6 +351,18 @@ fun MainMenuPreview() {
     MainMenu(
         context,
         isLandscape = false,
+        navController
+    )
+}
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 720, heightDp = 360)
+@Composable
+fun MainMenuPreviewLandscape() {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+
+    MainMenu(
+        context,
+        isLandscape = true,
         navController
     )
 }

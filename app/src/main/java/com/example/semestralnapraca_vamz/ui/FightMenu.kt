@@ -29,11 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -45,7 +47,6 @@ import com.example.semestralnapraca_vamz.viewModels.FightMenuViewModel
 import com.example.semestralnapraca_vamz.R
 import kotlin.math.absoluteValue
 
-var landscape: Boolean = false
 @Composable
 fun FightMenu(
     context: Context,
@@ -53,7 +54,6 @@ fun FightMenu(
     navController: NavController
 ) {
     val viewModel = remember { FightMenuViewModel(context) }
-    landscape = isLandscape
     FightMenuContent(isLandscape, viewModel, navController, context)
 }
 
@@ -121,9 +121,16 @@ fun PortraitLayout(
             verticalArrangement = Arrangement.SpaceEvenly
         )
         {
-
+            Box(modifier = Modifier
+                .fillMaxSize()) {
+                Image(
+                    painter = painterResource(id = R.drawable.fight_background_2),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
-        spellButtons(viewModel, landscape, context)
+        spellButtons(viewModel, false, context)
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
@@ -132,7 +139,7 @@ fun PortraitLayout(
                 .background(Color(0xFF5C2402)),
         )
         {
-            monsterStats(viewModel, landscape)
+            monsterStats(viewModel, false)
         }
         Column(
             modifier = Modifier
@@ -157,8 +164,7 @@ fun PortraitLayout(
 @Composable
 fun LogEntryItem(entry: LogEntry) {
     Text(
-        text = entry.logText,
-        color = Color.White
+        text = entry.logText
     )
 }
 
@@ -176,26 +182,72 @@ fun monsterStats(
 
     if (isLandscape) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, top = 8.dp),
         ) {
-            Column(
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+
 
             ) {
                 Text(
                     text = viewModel.monsterName.value,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.Red,
-                    fontWeight = FontWeight.Bold
-
+                    color = Color.White
                 )
+                val levelText = buildAnnotatedString {
+                    append("Level: ")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(viewModel.monsterLevel.value.toString())
+                    }
+
+                }
                 Text(
-                    text = monsterLevel.toString(),
+                    text = levelText,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
                 )
             }
-            Column() {
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.Gray)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
 
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                Brush.horizontalGradient(
+                                    listOf(
+                                        Color(0xFFFF0000),
+                                        Color(0xFF66FF33)
+                                    )
+                                )
+                            )
+                            .fillMaxWidth(healthPercentage)
+                            .fillMaxHeight()
+
+
+                    )
+                    Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
+                }
             }
         }
     } else {
@@ -227,7 +279,9 @@ fun monsterStats(
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                     color = Color.White,
                     textAlign = TextAlign.End,
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
                 )
             }
         }
@@ -235,7 +289,9 @@ fun monsterStats(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Box(
@@ -247,8 +303,14 @@ fun monsterStats(
                 ) {
                     Box(
                         modifier = Modifier
-                            .background(Brush.horizontalGradient(listOf(Color(0xFFFF0000),
-                                Color(0xFF66FF33))))
+                            .background(
+                                Brush.horizontalGradient(
+                                    listOf(
+                                        Color(0xFFFF0000),
+                                        Color(0xFF66FF33)
+                                    )
+                                )
+                            )
                             .fillMaxWidth(healthPercentage)
                             .fillMaxHeight()
 
@@ -256,14 +318,6 @@ fun monsterStats(
                     )
                     Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
                 }
-
-
-                /*Text(
-                    text = "${monsterHealth.value} / ${monsterMaxHealth.value}",
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )*/
             }
         }
 
@@ -278,7 +332,59 @@ fun spellButtons(
     context: Context
 ) {
     if (isLandscape) {
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .padding(end = 16.dp, top=8.dp, bottom=8.dp)
+                .background(Color(0xFF5C2402)),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        )
+        {
 
+            for (spell in viewModel.spells) {
+                var isOnCooldown by remember { mutableStateOf(viewModel.isSpellOnCooldown(spell)) }
+                var cooldownLeft = viewModel.getCooldownLeft(spell.spellSlot)
+                var cooldown = viewModel.getCooldown(spell.spellSlot)
+                var progress = cooldownLeft?.value?.toFloat()!! / cooldown?.value?.toFloat()!!
+
+                if (progress == 0f) isOnCooldown = viewModel.isSpellOnCooldown(spell)
+
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)) {
+
+                    Image(
+                        painter = painterResource(id = spell.drawableResId),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                if (!isOnCooldown) {
+                                    viewModel.castSpell(spell.spellSlot, context)
+                                    isOnCooldown = viewModel.isSpellOnCooldown(spell)
+                                }
+                            }
+                    )
+                    if (isOnCooldown) {
+                        Box(
+                            modifier = Modifier
+                                .alpha(0.7f)
+                                .background(Color.White)
+                                .fillMaxWidth(
+                                    cooldownLeft.value.toFloat() / cooldown.value.toFloat()
+                                )
+                                .fillMaxHeight()
+                        ) {
+                            Text(
+                                text = cooldownLeft.value.toString(),
+                                modifier = Modifier.align(alignment = Alignment.Center),
+                                fontSize = 30.sp
+                            )
+                        }
+                    }
+                } }
+        }
     } else {
         Row(
             modifier = Modifier
@@ -298,13 +404,15 @@ fun spellButtons(
 
                 if (progress == 0f) isOnCooldown = viewModel.isSpellOnCooldown(spell)
 
-                Box(modifier = Modifier.fillMaxSize()
+                Box(modifier = Modifier
+                    .fillMaxSize()
                     .weight(1f)) {
 
                     Image(
                         painter = painterResource(id = spell.drawableResId),
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
                             .clickable {
                                 if (!isOnCooldown) {
                                     viewModel.castSpell(spell.spellSlot, context)
@@ -330,8 +438,6 @@ fun spellButtons(
                         }
                     }
             } }
-
-
         }
     }
 }
@@ -342,6 +448,95 @@ fun LandscapeLayout(
     navController: NavController,
     context: Context
 ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFB36800))
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .fillMaxHeight(0.7f),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .padding(start = 16.dp, end = 8.dp, top = 16.dp)
+                    .background(Color(0xFF5C2402)),
+                verticalArrangement = Arrangement.SpaceEvenly
+            )
+            {
+                Box(modifier = Modifier
+                    .fillMaxSize()) {
+                    Image(
+                        painter = painterResource(id = R.drawable.fight_background_2),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+            Column(modifier = Modifier.fillMaxSize()) {
+                Row() {
+                    Text(
+                        text = "Fight!",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp, top = 8.dp)
+                            .weight(1f)
+                            .wrapContentWidth(Alignment.CenterHorizontally),
+                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                    Button(
+                        onClick = {
+                            navController.navigate("main_menu")
+                        },
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                    ) {
+                        Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .padding(end = 16.dp)
+                        .background(Color(0xFF5C2402)),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                )
+                {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(viewModel.logEntries.reversed()) { entry ->
+                            LogEntryItem(entry)
+                        }
+                    }
+
+                }
+            }
+
+        }
+        Row() {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f)
+                    .padding(start=16.dp, bottom=8.dp, top = 8.dp, end = 8.dp)
+                    .background(Color(0xFF5C2402)),
+            )
+            {
+                monsterStats(viewModel, false)
+            }
+            spellButtons(viewModel, true, context)
+
+        }
+
+    }
 }
 
 
@@ -356,3 +551,17 @@ fun FightMenuPreview() {
         navController
     )
 }
+
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 720, heightDp = 360)
+@Composable
+fun FightMenuPreviewLandscape() {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+    FightMenu(
+        context,
+        isLandscape = true,
+        navController
+    )
+}
+
+

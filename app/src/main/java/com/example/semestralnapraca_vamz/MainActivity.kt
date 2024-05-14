@@ -21,6 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.ui.FightMenu
 import com.example.semestralnapraca_vamz.ui.LegacyMenu
 import com.example.semestralnapraca_vamz.ui.MainMenu
+import com.example.semestralnapraca_vamz.ui.SpellUpgradeMenu
+import com.example.semestralnapraca_vamz.ui.UnitsMenu
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
@@ -51,6 +53,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("legacy_menu") {
                             LegacyMenu(context, isLandscape, navController)
+                        }
+                        composable("units_menu") {
+                            UnitsMenu(context, isLandscape, navController)
+                        }
+                        composable("spell_upgrade_menu") {
+                            SpellUpgradeMenu(context, isLandscape, navController)
                         }
                     }
                 }

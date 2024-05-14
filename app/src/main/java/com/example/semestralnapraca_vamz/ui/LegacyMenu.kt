@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -138,6 +139,18 @@ fun LegacyMenuPreview() {
     LegacyMenu(
         context,
         isLandscape = false,
+        navController
+    )
+}
+
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 720, heightDp = 360)
+@Composable
+fun LegacyMenuPreviewLandscape() {
+    val context = LocalContext.current
+    val navController = rememberNavController()
+    LegacyMenu(
+        context,
+        isLandscape = true,
         navController
     )
 }
