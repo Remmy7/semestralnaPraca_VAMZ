@@ -88,6 +88,7 @@ fun PortraitLayout(
             ) {
                 Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
+
         }
     }
 

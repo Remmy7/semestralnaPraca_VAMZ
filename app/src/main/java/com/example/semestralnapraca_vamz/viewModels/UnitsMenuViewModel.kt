@@ -66,18 +66,39 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         return 999999.9
     }
 
-    fun calculatePriceLoop(unitName: String, unitLevel: Int, howMany: Int): Int {
+    fun calculateDamageIncrease(unitName: String, levels: Int) : Int {
+        var currLevel = getUnitCurrLevel(unitName)
+        var multiplier = 1.1
+        when(unitName) {
+            "wizard" -> multiplier = multiplierWizard
+            "archer" -> multiplier = multiplierArcher
+            "mystic" -> multiplier = multiplierMystic
+            "knight" -> multiplier = multiplierKnight
+            "paladin" -> multiplier = multiplierPaladin
+        }
+        var index = 0
+        var currDamage = 1.0
+        var totalDamage = 1.0
+        repeat (levels) {
+            if (index < currLevel) currDamage *= multiplier
+            totalDamage *= multiplier
+            index++
+        }
+        return (totalDamage-currDamage).toInt()
+    }
+
+    fun calculatePriceLoop(unitName: String, howMany: Int): Int {
         var returnVal = 0.0
-        var currLevel = unitLevel
+        var currLevel = getUnitCurrLevel(unitName)
         repeat (howMany) {
             returnVal += calculatePriceOneUnit(unitName, currLevel)
             currLevel++
         }
         return returnVal.toInt()
     }
-    fun calculateMaxPurcharsable(unitName: String, unitLevel: Int): Pair<Int, Int> {
+    fun calculateMaxPurcharsable(unitName: String): Pair<Int, Int> {
         var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()
-        var currLevel = unitLevel
+        var currLevel = getUnitCurrLevel(unitName)
         var purcharsable = 0
         var totalPrice = 0.0
 
@@ -92,5 +113,28 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
             currLevel--
         }
         return Pair(totalPrice.toInt(), purcharsable.toInt())
+    }
+
+    fun buyAmountOfUnits(unitName: String, amount: Int) {
+        var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()
+        var unitLevelCurr = getUnitCurrLevel(unitName)
+        when(unitName) {
+            "wizard" -> {sharedPreferencesHelper.saveWizardLevel(pref, unitLevelCurr + amount); _wizardLevel.intValue += amount}
+            "archer" -> {sharedPreferencesHelper.saveArcherLevel(pref, unitLevelCurr + amount); _archerLevel.intValue += amount}
+            "mystic" -> {sharedPreferencesHelper.saveMysticLevel(pref, unitLevelCurr + amount); _mysticLevel.intValue += amount}
+            "knight" -> {sharedPreferencesHelper.saveKnightLevel(pref, unitLevelCurr + amount); _knightLevel.intValue += amount}
+            "paladin" -> {sharedPreferencesHelper.savePaladinLevel(pref, unitLevelCurr + amount); _paladinLevel.intValue += amount}
+        }
+    }
+
+    fun getUnitCurrLevel(unitName: String): Int {
+        when(unitName) {
+            "wizard" -> {return sharedPreferencesHelper.getWizardLevel(pref)}
+            "archer" -> {return sharedPreferencesHelper.getArcherLevel(pref)}
+            "mystic" -> {return sharedPreferencesHelper.getMysticLevel(pref)}
+            "knight" -> {return sharedPreferencesHelper.getKnightLevel(pref)}
+            "paladin" -> {return sharedPreferencesHelper.getPaladinLevel(pref)}
+        }
+        return 6545
     }
 }

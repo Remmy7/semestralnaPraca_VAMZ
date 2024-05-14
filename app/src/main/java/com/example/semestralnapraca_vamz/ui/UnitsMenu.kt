@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -105,29 +106,21 @@ fun PortraitLayout(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxHeight(0.65f)
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
-                    .background(Color(0xFF5C2402)),
-                verticalArrangement = Arrangement.SpaceEvenly
-            )
-            {
-
-            }
-            Column(
-                modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .background(Color(0xFF5C2402)),
                 verticalArrangement = Arrangement.SpaceEvenly
             )
             {
-
+                buyLayout(viewModel, context, "archer", viewModel.archerLevel)
+                buyLayout(viewModel, context, "wizard", viewModel.wizardLevel)
+                buyLayout(viewModel, context, "mystic", viewModel.mysticLevel)
+                buyLayout(viewModel, context, "knight", viewModel.knightLevel)
+                buyLayout(viewModel, context, "paladin", viewModel.paladinLevel)
             }
         }
     }
-
 }
 
 @Composable
@@ -135,13 +128,133 @@ fun LandscapeLayout(
     viewModel: UnitsMenuViewModel,
     navController: NavController,
     context: Context
-) {Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .background(Color(0xFFB36800))
 ) {
+        Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFB36800)),
+            verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        buyLayout(viewModel, context, "archer", viewModel.archerLevel)
+    }
 
 }
+
+@Composable
+fun buyLayout(
+    viewModel: UnitsMenuViewModel,
+    context: Context,
+    unitType: String,
+    unitLevel: MutableState<Int>
+) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp)
+        .background(Color.DarkGray)) {
+        Text(
+            text = "$unitType, level ${unitLevel.value}",
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+
+        ) {
+            buttonLayout(viewModel,unitType, 1)
+            buttonLayout(viewModel,unitType, 10)
+            buttonLayout(viewModel,unitType, -1)
+        }
+    }
+
+}
+
+@Composable
+fun buttonLayout(
+    viewModel: UnitsMenuViewModel,
+    unitType: String,
+    amountBought: Int
+) {
+    if (amountBought == -1) {
+        val (price, amount) = viewModel.calculateMaxPurcharsable(unitType)
+        Column {
+            Button(
+                onClick = { viewModel.buyAmountOfUnits(unitType, amountBought) }
+            ) {
+                Column {
+                    Box(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            text = "Buy MAX($amount)",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            text = "$price gold",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp, top = 8.dp),
+                text = "+${viewModel.calculateDamageIncrease(unitType, 1)} dps",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+
+    } else {
+        Column {
+            Button(
+                onClick = { viewModel.buyAmountOfUnits(unitType, amountBought) }
+            ) {
+                Column {
+                    Box(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            text = "Buy $amountBought",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        val price = viewModel.calculatePriceLoop(unitType, amountBought)
+                        Text(
+                            text = "-$price gold",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp, top = 8.dp),
+                text = "+${viewModel.calculateDamageIncrease(unitType, 1)} dps",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+    }
 
 }
 
