@@ -92,22 +92,4 @@ class MainActivity : ComponentActivity() {
         viewModelLegacy.reloadLegacy(context)
 
     }
-//    enum class IdleGameScreen {
-//        MainMenu,
-//        FightMenu,
-//        SettingsMenu,
-//        BlacksmithMenu,
-//        UnitsMenu,
-//        LegacyMenu
-//    }
-//    fun navigateTo(screen: IdleGameScreen, navController: NavHostController) {
-//        when (screen) {
-//            IdleGameScreen.BlacksmithMenu -> navController.navigate("blacksmith_menu")
-//            IdleGameScreen.FightMenu -> navController.navigate("fight_menu")
-//            IdleGameScreen.LegacyMenu -> navController.navigate("legacy_menu")
-//            IdleGameScreen.MainMenu -> navController.navigate("main_menu")
-//            //IdleGameScreen.SettingsMenu -> navController.navigate("settings_menu")
-//            IdleGameScreen.UnitsMenu -> navController.navigate("units_menu")
-//        }
-//    }
 }

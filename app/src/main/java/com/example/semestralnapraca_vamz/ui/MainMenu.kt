@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.semestralnapraca_vamz.MainActivity
+import com.example.semestralnapraca_vamz.R
 import com.example.semestralnapraca_vamz.ui.theme.SemestralnaPraca_VAMZTheme
 import com.example.semestralnapraca_vamz.viewModels.MainMenuViewModel
 
@@ -93,7 +95,7 @@ fun LandscapeLayout(
 
         ) {
             Text(
-                text = "Idle Game",
+                text = stringResource(R.string.idle_game),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
@@ -121,7 +123,7 @@ fun LandscapeLayout(
                     contentColor = Color.Black
                 ),
             ) {
-                Text(text = "Fight", fontSize = 50.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.fight), fontSize = 50.sp, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -157,7 +159,7 @@ fun LandscapeLayout(
                         contentColor = Color.Black
                     ),
                 ) {
-                    Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.units), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Button(
@@ -173,7 +175,7 @@ fun LandscapeLayout(
                         contentColor = Color.Black
                     ),
                 ) {
-                    Text(text = "Spells", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.spells), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
 
 
@@ -191,7 +193,7 @@ fun LandscapeLayout(
                     ),
 
                     ) {
-                    Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.legacy), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -212,7 +214,7 @@ fun PortraitLayout(
             .background(Color(0xFFB36800))
     ) {
         Text(
-            text = "Idle Game",
+            text = stringResource(R.string.idle_game),
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .align(Alignment.CenterHorizontally),
@@ -252,7 +254,7 @@ fun PortraitLayout(
                     contentColor = Color.Black
                 ),
                 ) {
-                Text(text = "Fight", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.fight), fontSize = 40.sp, fontWeight = FontWeight.Bold)
             }
 
 
@@ -270,7 +272,7 @@ fun PortraitLayout(
                     contentColor = Color.Black
                 ),
             ) {
-                Text(text = "Units", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.units), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
             Button(
@@ -287,7 +289,7 @@ fun PortraitLayout(
                 ),
 
                 ) {
-                Text(text = "Spells", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.spells), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
 
@@ -305,7 +307,7 @@ fun PortraitLayout(
                 ),
 
                 ) {
-                Text(text = "Legacy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.legacy), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -314,9 +316,9 @@ fun PortraitLayout(
 @Composable
 fun StatsLayout(level: MutableState<Int>, gold: MutableState<Int>, legacy: MutableState<Int>) {
     Column {
-        StatItem(name = "Level", value = level, Color.White, Color.Green)
-        StatItem(name = "Gold", value = gold, Color.White, Color.Yellow)
-        StatItem(name = "Legacy", value = legacy, Color.White, Color.White)
+        StatItem(name = stringResource(R.string.level), value = level, Color.White, Color.Green)
+        StatItem(name = stringResource(R.string.gold), value = gold, Color.White, Color.Yellow)
+        StatItem(name = stringResource(R.string.legacy), value = legacy, Color.White, Color.White)
     }
 }
 

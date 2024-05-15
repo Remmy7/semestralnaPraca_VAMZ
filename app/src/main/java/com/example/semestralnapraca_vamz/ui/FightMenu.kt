@@ -92,7 +92,7 @@ fun PortraitLayout(
 
         ) {
             Text(
-                text = "Fight!",
+                text = stringResource(R.string.fight),
                 modifier = Modifier
                     .padding(bottom = 8.dp, top = 8.dp)
                     .weight(1f)
@@ -110,7 +110,7 @@ fun PortraitLayout(
                 modifier = Modifier
                     .padding(end = 8.dp)
                 ) {
-                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -248,7 +248,7 @@ fun monsterStats(
                 color = Color.White
             )
             val levelText = buildAnnotatedString {
-                    append(stringResource(R.string.level))
+                    append(stringResource(R.string.level_2))
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append(viewModel.monsterLevel.value.toString())
                 }

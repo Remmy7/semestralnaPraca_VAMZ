@@ -34,15 +34,25 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
     val legacyReceived: MutableState<Int> = _legacyReceived
 
 
+
     init {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         _legacyReceived.intValue = calculateLegacy(false, context)
         _currentLegacy.intValue = sharedPreferencesHelper.getLegacy(pref)
-        // Pošli notifikáciu
-        if (getUpgradePrice("speed") < currentLegacy.value) {
-            createNotification(context, "Don't miss out!", "You are able to speed up your game, head to the Legacy menu!")
+
+        if (currentLegacy.value >= getUpgradePrice("Game speed")) {
+            val countDownTimerLegacy = object : CountDownTimer(60001,1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                }
+                override fun onFinish() {
+                    createNotification(context, context.getString(R.string.don_t_miss_out),
+                        context.getString(R.string.you_are_able_to_speed_up_your_game_head_to_the_legacy_menu))
+                }
+            }
+            countDownTimerLegacy.start() // Start the timer
         }
+
     }
     fun calculateLegacy(resetGame: Boolean, context: Context) : Int {
         var calculatedLeg = 1.0f
@@ -83,10 +93,6 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
 
     fun resetGame(context: Context) {
         calculateLegacy(true, context)
-        // Pošli notifikáciu
-        if (getUpgradePrice("speed") < currentLegacy.value) {
-            createNotification(context, "Don't miss out!", "You are able to speed up your game,\n head to the Legacy menu!")
-        }
     }
 
     fun reloadLegacy(context: Context) {

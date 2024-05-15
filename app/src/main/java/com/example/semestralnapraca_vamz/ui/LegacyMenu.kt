@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.semestralnapraca_vamz.R
 import com.example.semestralnapraca_vamz.viewModels.FightMenuViewModel
 import com.example.semestralnapraca_vamz.viewModels.LegacyMenuViewModel
 
@@ -44,16 +46,16 @@ fun LegacyMenu(
     val viewModel = viewModel
     val builder = AlertDialog.Builder(context)
 
-    builder.setTitle("Warning!")
-        .setMessage("You will lose all your progress. Do you still want to proceed?")
+    builder.setTitle(stringResource(R.string.warning))
+        .setMessage(stringResource(R.string.you_will_lose_all_your_progress_do_you_still_want_to_proceed))
 
-    builder.setPositiveButton("YES") { dialog, which ->
+    builder.setPositiveButton(stringResource(R.string.yes)) { dialog, which ->
         viewModel.resetGame(context)
 
         dialog.dismiss()
     }
 
-    builder.setNegativeButton("Decline") { dialog, which ->
+    builder.setNegativeButton(stringResource(R.string.decline)) { dialog, which ->
         dialog.dismiss()
     }
     LegacyMenuContent(isLandscape, viewModel, navController, builder, context)
@@ -83,7 +85,7 @@ fun LegacyMenuContent(
                     .padding(end = 8.dp)
                     .align(Alignment.End)
             ) {
-                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
             Row(
                 modifier = Modifier
@@ -99,7 +101,7 @@ fun LegacyMenuContent(
                 )
                 {
                     Text(
-                        text = "Current legacy: " + viewModel.currentLegacy.value,
+                        text = stringResource(R.string.current_legacy) + viewModel.currentLegacy.value,
                         modifier = Modifier
                             .padding(start = 8.dp, top = 8.dp)
                             .weight(1f)
@@ -109,7 +111,7 @@ fun LegacyMenuContent(
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        text = "Legacy received: " + viewModel.legacyReceived.value,
+                        text = stringResource(R.string.legacy_received) + viewModel.legacyReceived.value,
                         modifier = Modifier
                             .padding(start = 8.dp, top = 8.dp)
                             .weight(1f)
@@ -130,7 +132,7 @@ fun LegacyMenuContent(
                             .padding(bottom = 8.dp)
 
                     ) {
-                        Text(text = "RESET GAME", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Text(text = stringResource(R.string.reset_game), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     }
                 }
                 LazyColumn(
@@ -144,12 +146,24 @@ fun LegacyMenuContent(
                 {
                     itemsIndexed(
                         listOf(
-                            "Upgrade your game speed for: " to "Game speed",
-                            "Upgrade your total damage by 1% for: " to "Total Damage",
-                            "Upgrade your archer damage by 1% for: " to "Archer upgrade",
-                            "Upgrade your wizard damage by 1% for: " to "Wizard upgrade",
-                            "Upgrade your mystic damage by 1% for: " to "Mystic upgrade",
-                            "Upgrade your knight damage by 1% for: " to "Knight upgrade"
+                            context.getString(R.string.upgrade_your_game_speed_for) to context.getString(
+                                R.string.game_speed
+                            ),
+                            context.getString(R.string.upgrade_your_total_damage_by_1_for) to context.getString(
+                                R.string.total_damage
+                            ),
+                            context.getString(R.string.upgrade_your_archer_damage_by_1_for) to context.getString(
+                                R.string.archer_upgrade
+                            ),
+                            context.getString(R.string.upgrade_your_wizard_damage_by_1_for) to context.getString(
+                                R.string.wizard_upgrade
+                            ),
+                            context.getString(R.string.upgrade_your_mystic_damage_by_1_for) to context.getString(
+                                R.string.mystic_upgrade
+                            ),
+                            context.getString(R.string.upgrade_your_knight_damage_by_1_for) to context.getString(
+                                R.string.knight_upgrade
+                            )
                         )
                     ) { index, (customText, upgradeType) ->
                         legacyBuyLayout(viewModel, context, customText, upgradeType)
@@ -172,7 +186,7 @@ fun LegacyMenuContent(
                     .padding(end = 8.dp)
                     .align(Alignment.End)
             ) {
-                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
             Column(
                 modifier = Modifier
@@ -184,7 +198,7 @@ fun LegacyMenuContent(
             )
             {
                 Text(
-                    text = "Current legacy: " + viewModel.currentLegacy.value,
+                    text = stringResource(R.string.current_legacy) + viewModel.currentLegacy.value,
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp)
                         .weight(1f)
@@ -194,7 +208,7 @@ fun LegacyMenuContent(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Legacy received: " + viewModel.legacyReceived.value,
+                    text = stringResource(R.string.legacy_received) + viewModel.legacyReceived.value,
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp)
                         .weight(1f)
@@ -215,7 +229,7 @@ fun LegacyMenuContent(
                         .padding(bottom = 8.dp)
 
                 ) {
-                    Text(text = "RESET GAME", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.reset_game), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
             LazyColumn(
@@ -229,12 +243,12 @@ fun LegacyMenuContent(
             {
                 itemsIndexed(
                     listOf(
-                        "Upgrade your game speed for: " to "Game speed",
-                        "Upgrade your total damage by 1% for: " to "Total Damage",
-                        "Upgrade your archer damage by 1% for: " to "Archer upgrade",
-                        "Upgrade your wizard damage by 1% for: " to "Wizard upgrade",
-                        "Upgrade your mystic damage by 1% for: " to "Mystic upgrade",
-                        "Upgrade your knight damage by 1% for: " to "Knight upgrade"
+                        context.getString(R.string.upgrade_your_game_speed_for) to context.getString(R.string.game_speed),
+                        context.getString(R.string.upgrade_your_total_damage_by_1_for) to context.getString(R.string.total_damage),
+                        context.getString(R.string.upgrade_your_archer_damage_by_1_for) to context.getString(R.string.archer_upgrade),
+                        context.getString(R.string.upgrade_your_wizard_damage_by_1_for) to context.getString(R.string.wizard_upgrade),
+                        context.getString(R.string.upgrade_your_mystic_damage_by_1_for) to context.getString(R.string.mystic_upgrade),
+                        context.getString(R.string.upgrade_your_knight_damage_by_1_for) to context.getString(R.string.knight_upgrade)
                     )
                 ) { index, (customText, upgradeType) ->
                     legacyBuyLayout(viewModel, context, customText, upgradeType)
@@ -273,11 +287,12 @@ fun legacyBuyLayout(
             color = Color.White
         )
         Button(
-            modifier = Modifier.fillMaxWidth(0.5f).
-            align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .align(Alignment.CenterHorizontally),
             onClick = { viewModel.legacyUpgrade(upgradeType, context) }
         ) {
-            Text(text = "Upgrade")
+            Text(text = stringResource(R.string.upgrade))
         }
     }
 }

@@ -48,7 +48,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterMaxHealth = mutableIntStateOf(600)
     val monsterMaxHealth: MutableState<Int> = _monsterMaxHealth
 
-    private val _monsterName = mutableStateOf("TempBoss")
+    private val _monsterName = mutableStateOf(context.getString(R.string.tempboss))
     val monsterName: MutableState<String> = _monsterName
 
     private val _monsterSprite = mutableIntStateOf(R.drawable.enemy_medusa)
@@ -205,7 +205,6 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     }
 
     fun createNewMonster(context: Context) {
-        //val newMaxHealth = (baseMonsterHealth * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
         val newMaxHealth = Math.pow(baseMonsterHealth * (_monsterLevel.intValue + 1).toDouble(), exponentialScalingFactor).toInt()
         setMonsterStats(_monsterLevel.intValue + 1, newMaxHealth, newMaxHealth, generateMonsterName())
         // Play deathsound
@@ -292,22 +291,23 @@ class FightMenuViewModel(context: Context) : ViewModel() {
                     append(monsterName.value)
                 }
                 withStyle(style = SpanStyle(color = Color.White)) {
-                    append(", received ")
+                    append(context.getString(R.string.received_3))
                 }
                 withStyle(style = SpanStyle(color = Color.Green)) {
-                    append("$xpAmount xp ")
+                    append(context.getString(R.string.xp_2, xpAmount.toString())) // robil tu problém extraction
                 }
                 withStyle(style = SpanStyle(color = Color.White)) {
-                    append("and ")
+                    append(context.getString(R.string.and_5))
                 }
                 withStyle(style = SpanStyle(color = Color.Yellow)) {
-                    append("$addedGold gold")
+                    append(context.getString(R.string.gold_fight, addedGold.toString()))
                 }
             }
             val entry = LogEntry(coloredString, monsterName.value, xpAmount, addedGold)
             addLogEntry(entry)
             // send a notification
-            createNotification(context, "You killed a monster!", coloredString.toString())
+            createNotification(context,
+                context.getString(R.string.you_killed_a_monster), coloredString.toString())
             // Monster death, generate a new one
             createNewMonster(context)
 

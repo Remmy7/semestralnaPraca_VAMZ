@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -86,7 +87,7 @@ fun PortraitLayout(
 
         ) {
             Text(
-                text = "Upgrade your spells",
+                text = stringResource(R.string.upgrade_your_spells),
                 modifier = Modifier
                     .padding(bottom = 8.dp, top = 8.dp)
                     .weight(1f)
@@ -104,7 +105,7 @@ fun PortraitLayout(
                 modifier = Modifier
                     .padding(end = 8.dp)
             ) {
-                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
         }
@@ -116,7 +117,7 @@ fun PortraitLayout(
         ) {
             val coloredString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color.White)) {
-                    append("Gold: ")
+                    append(stringResource(R.string.gold_2))
                 }
                 withStyle(style = SpanStyle(color = Color.Yellow)) {
                     append(viewModel.gold.value.toString())
@@ -125,7 +126,7 @@ fun PortraitLayout(
             Text(
                 text = coloredString,
                 modifier = Modifier
-                    .padding(bottom = 8.dp,start=16.dp)
+                    .padding(bottom = 8.dp, start = 16.dp)
                     .wrapContentSize(Alignment.Center),
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
                 color = Color.White,
@@ -169,14 +170,14 @@ fun spellBuyLayout(
         .padding(8.dp)
         .background(Color.DarkGray)) {
         Text(
-            text = "Level ${spellLevel.value} $spellType spell",
+            text = stringResource(R.string.level_spell, spellLevel.value, spellType),
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
             color = Color.White,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = "Upgrade for $spellPrice",
+            text = stringResource(R.string.upgrade_for, spellPrice),
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
             color = Color.White,
             textAlign = TextAlign.Center,

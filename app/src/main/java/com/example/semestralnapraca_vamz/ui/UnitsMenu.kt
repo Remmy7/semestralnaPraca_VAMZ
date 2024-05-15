@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -82,7 +83,7 @@ fun PortraitLayout(
 
         ) {
             Text(
-                text = "Upgrade your units",
+                text = stringResource(R.string.upgrade_your_units),
                 modifier = Modifier
                     .padding(bottom = 8.dp, top = 8.dp)
                     .weight(1f)
@@ -100,7 +101,7 @@ fun PortraitLayout(
                 modifier = Modifier
                     .padding(end = 8.dp)
             ) {
-                Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
         }
         Column(
@@ -111,7 +112,7 @@ fun PortraitLayout(
         ) {
             val coloredString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color.White)) {
-                    append("Gold: ")
+                    append(stringResource(R.string.gold_2))
                 }
                 withStyle(style = SpanStyle(color = Color.Yellow)) {
                     append(viewModel.gold.value.toString())
@@ -120,7 +121,7 @@ fun PortraitLayout(
             Text(
                 text = coloredString,
                 modifier = Modifier
-                    .padding(bottom = 8.dp,start=16.dp)
+                    .padding(bottom = 8.dp, start = 16.dp)
                     .wrapContentSize(Alignment.Center),
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 30.sp),
                 color = Color.White,
@@ -161,7 +162,7 @@ fun buyLayout(
         .padding(8.dp)
         .background(Color.DarkGray)) {
         Text(
-            text = "$unitType, level ${unitLevel.value}",
+            text = stringResource(R.string.level_type, unitType, unitLevel.value),
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
             color = Color.White,
             textAlign = TextAlign.Center,
@@ -199,7 +200,7 @@ fun buttonLayout(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text(
-                            text = "Buy MAX($amount)",
+                            text = stringResource(R.string.buy_max, amount),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -208,7 +209,7 @@ fun buttonLayout(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text(
-                            text = "$price gold",
+                            text = stringResource(R.string.gold_3, price),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -219,7 +220,10 @@ fun buttonLayout(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp, top = 8.dp),
-                text = "+${viewModel.calculateDamageIncrease(unitType, 1)} dps",
+                text = stringResource(
+                    R.string.dps_1,
+                    viewModel.calculateDamageIncrease(unitType, 1)
+                ),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -236,7 +240,7 @@ fun buttonLayout(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text(
-                            text = "Buy $amountBought",
+                            text = stringResource(R.string.buy_bought, amountBought),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -246,7 +250,7 @@ fun buttonLayout(
                     ) {
                         val price = viewModel.calculatePriceLoop(unitType, amountBought)
                         Text(
-                            text = "-$price gold",
+                            text = stringResource(R.string.negativegold, price),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -258,7 +262,7 @@ fun buttonLayout(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp, top = 8.dp),
-                text = "+$dps dps",
+                text = stringResource(R.string.dps_2, dps),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
