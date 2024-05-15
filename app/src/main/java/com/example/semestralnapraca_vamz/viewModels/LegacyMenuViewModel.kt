@@ -84,6 +84,8 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveMysticSpellLevel(pref, 1)
             sharedPreferencesHelper.saveKnightSpellLevel(pref, 1)
             sharedPreferencesHelper.savePaladinSpellLevel(pref, 1)
+            sharedPreferencesHelper.saveCurrentExperience(pref, 1)
+            sharedPreferencesHelper.saveLevelUpExperience(pref, 100)
             reloadLegacy(context)
         }
 

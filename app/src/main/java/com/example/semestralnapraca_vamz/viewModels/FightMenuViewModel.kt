@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -278,9 +279,19 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             // Add stats to user
             val addedGold = (_monsterLevel.intValue * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
             sharedPreferencesHelper.saveGold(pref, sharedPreferencesHelper.getGold(pref) + addedGold)
-            sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
-            // Log monster death
             val xpAmount = 50 + _monsterLevel.intValue
+            sharedPreferencesHelper.saveCurrentExperience(pref, sharedPreferencesHelper.getCurrentExperience(pref) + xpAmount)
+            if (sharedPreferencesHelper.getLevelUpExperience(pref) <= sharedPreferencesHelper.getCurrentExperience(pref)) {
+                sharedPreferencesHelper.saveLevel(pref, sharedPreferencesHelper.getLevel(pref) + 1)
+                sharedPreferencesHelper.saveLevelUpExperience(pref, (sharedPreferencesHelper.getCurrentExperience(pref) * 1.8).toInt())
+                val tempAnno = buildAnnotatedString{
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("Level up!")
+                    }}
+                val tempLog = LogEntry(tempAnno, "", 0, 0)
+                addLogEntry(tempLog)
+            }
+            // Log monster death
             val coloredString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color.Red)) {
                     append(monsterName.value)

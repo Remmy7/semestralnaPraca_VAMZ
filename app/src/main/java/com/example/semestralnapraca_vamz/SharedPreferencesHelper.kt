@@ -174,7 +174,7 @@ object SharedPreferencesHelper {
     }
 
     fun getLevelUpExperience(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._levelUpExperience, 1)
+        return preferenceHelper.getInt(PreferenceHelper._levelUpExperience, 100)
     }
 
     fun getGold(preferenceHelper: SharedPreferences): Int {
