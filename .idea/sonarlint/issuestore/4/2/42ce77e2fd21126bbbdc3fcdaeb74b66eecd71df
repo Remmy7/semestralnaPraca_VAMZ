@@ -1,20 +1,20 @@
 
-zkotlin:S1172â"4Remove this unused function parameter "isLandscape".(á«£õ8æş¶î÷1J$7612cf08-c04d-43fa-9e31-dcdee03fef6f
-hkotlin:S125:"Remove this commented out code.(©¨Ÿÿÿÿÿÿ8ñş¶î÷1J$7b412164-b15a-4481-813e-c6ab2ef9a286
-ckotlin:S125l"Remove this commented out code.(õãëÙ8òş¶î÷1J$75970b91-cf58-4c16-9928-1371b9e1378e
-dkotlin:S125Š"Remove this commented out code.(õãëÙ8òş¶î÷1J$56c2426e-974d-46c4-9f37-e33b54da6b0d
-|kotlin:S1481å"1Remove this unused "monsterLevel" local variable.(­ûœ…şÿÿÿÿ8˜ÿ¶î÷1J$10398322-f9d1-4d78-b871-c62a7a990010
-vkotlin:S1481ä"0Remove this unused "monsterName" local variable.(äøÈ§8˜ÿ¶î÷1J$77c5b15c-9a03-4858-b2e0-f37a2d839945
-_kotlin:S1128	"Remove this unused import.(™òæÜ8¦ÿ¶î÷1J$dd6faf65-d767-485c-ab45-17e939ba1e69
+zkotlin:S1172â"4Remove this unused function parameter "isLandscape".(á«£õ8„½øî÷1J$1c4ac429-e9e9-4b9b-9ab7-6652023abe73
+hkotlin:S125:"Remove this commented out code.(©¨Ÿÿÿÿÿÿ8”½øî÷1J$c0ddbe22-f096-4fd2-9280-dcff7132e5e3
+ckotlin:S125l"Remove this commented out code.(õãëÙ8”½øî÷1J$e80a4a57-8456-4115-93b1-d4d563a36164
+dkotlin:S125Š"Remove this commented out code.(õãëÙ8•½øî÷1J$d3a2f89e-f896-4d3e-b684-37a812c944db
+|kotlin:S1481å"1Remove this unused "monsterLevel" local variable.(­ûœ…şÿÿÿÿ8Ğ½øî÷1J$d0c42da9-ae97-44cd-864b-65d7c92a2442
+vkotlin:S1481ä"0Remove this unused "monsterName" local variable.(äøÈ§8Ğ½øî÷1J$a092b98e-5b06-4106-8255-f86b6e68a3ca
+_kotlin:S1128	"Remove this unused import.(™òæÜ8Û½øî÷1J$7702afc2-4679-41d2-abd7-60bcd8d27f4b
 dkotlin:S1128
-"Remove this unused import.(¤­‹üÿÿÿÿ8¦ÿ¶î÷1J$4f4ee30b-8576-449c-9217-37395ea2f513
-_kotlin:S1128"Remove this unused import.(Şå²8¦ÿ¶î÷1J$b3dea49b-5e3f-451b-a314-c13f3e936aa3
-_kotlin:S1128"Remove this unused import.(´çø8¦ÿ¶î÷1J$1d4743b4-fcd3-4629-bf78-beb17db95c1b
-dkotlin:S1128"Remove this unused import.(ˆ²ŞÎûÿÿÿÿ8¦ÿ¶î÷1J$f90b4fd0-8873-451d-86f7-1b7c266a1976
-dkotlin:S1128"Remove this unused import.(ÉÁ¸şÿÿÿÿ8§ÿ¶î÷1J$88e222a0-27ae-4158-87d0-d1c4770f505b
-_kotlin:S1128"Remove this unused import.(ğ”›„8§ÿ¶î÷1J$2052887f-fa3f-4dde-8296-4010de8bd47f
-dkotlin:S1128"Remove this unused import.(•“õÿşÿÿÿÿ8§ÿ¶î÷1J$6abc3960-9336-46ac-8f17-6c948663859e
-dkotlin:S1128!"Remove this unused import.(õÜ¦åûÿÿÿÿ8§ÿ¶î÷1J$17d00347-8c79-41f3-b0dc-48090349efbd
-_kotlin:S1128)"Remove this unused import.(®³ù‰8§ÿ¶î÷1J$5d449fd0-4262-4021-b8eb-7efb25d8e21d
-dkotlin:S11281"Remove this unused import.(‚œÒÿÿÿÿÿ8§ÿ¶î÷1J$726bb4cf-4c32-4675-b618-e7045091a8eb
-˜kotlin:S3776²"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(òµ™¨8³ÿ¶î÷1J$74885784-b3ba-439d-835a-888269edd15a
+"Remove this unused import.(¤­‹üÿÿÿÿ8Û½øî÷1J$4d1d7b9b-87f5-4c02-9d9b-4665f2006aef
+_kotlin:S1128"Remove this unused import.(Şå²8Û½øî÷1J$5cc14291-94c9-4df5-a848-feb5cb48aa5d
+_kotlin:S1128"Remove this unused import.(´çø8Û½øî÷1J$6442a1b8-b408-4a00-8cb3-c2c80753bcff
+dkotlin:S1128"Remove this unused import.(ˆ²ŞÎûÿÿÿÿ8Û½øî÷1J$8d73bf48-79ed-4c87-8600-11f741c2e790
+dkotlin:S1128"Remove this unused import.(ÉÁ¸şÿÿÿÿ8Ü½øî÷1J$9c4505a0-1c58-427a-b53c-a5ccb92fe8b8
+_kotlin:S1128"Remove this unused import.(ğ”›„8Ü½øî÷1J$0223651b-7765-4ec2-a07a-4813f1757d3c
+dkotlin:S1128"Remove this unused import.(•“õÿşÿÿÿÿ8Ü½øî÷1J$04eed9e4-9167-435b-8018-792ab3b1579d
+dkotlin:S1128!"Remove this unused import.(õÜ¦åûÿÿÿÿ8Ü½øî÷1J$afb30803-001e-49b1-bc33-8d90d3c6a644
+_kotlin:S1128)"Remove this unused import.(®³ù‰8Ü½øî÷1J$8bd4cc15-b8ea-4b5e-b770-a42317283f65
+dkotlin:S11281"Remove this unused import.(‚œÒÿÿÿÿÿ8Ü½øî÷1J$62db1ee1-5b9b-44d1-b1a4-3cab3d9473ee
+˜kotlin:S3776²"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(òµ™¨8å½øî÷1J$f14e9c3e-aedd-4b0d-8045-411bd4e858f0

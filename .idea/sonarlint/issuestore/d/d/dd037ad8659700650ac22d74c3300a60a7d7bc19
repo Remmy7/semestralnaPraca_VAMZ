@@ -1,9 +1,4 @@
 
->kotlin:S1128"Remove this unused import.(”Áä¡ıÿÿÿÿ8Šåïî÷1
->kotlin:S1128"Remove this unused import.(Šß°şúÿÿÿÿ8Šåïî÷1
->kotlin:S1128"Remove this unused import.(ğìï“øÿÿÿÿ8Šåïî÷1
-8kotlin:S1128"Remove this unused import.(ƒ°í`8Šåïî÷1
->kotlin:S1128"Remove this unused import.(ĞÇ¾ñøÿÿÿÿ8Šåïî÷1
-9kotlin:S1128"Remove this unused import.(ÛúÒô8Šåïî÷1
-9kotlin:S1128"Remove this unused import.(ó€™ÿ8Šåïî÷1
-—kotlin:S3776J"RRefactor this method to reduce its Cognitive Complexity from 61 to the 15 allowed.(üı8‘ñÊë÷1J$1c729c1e-b9e5-4a74-85c9-949536d3a47f
+}kotlin:S1135õ"2Complete the task associated to this TODO comment.(áÃæùÿÿÿÿ8•ØŸğ÷1J$cd2d34af-eafe-447e-87ab-af13abd9c17c
+—kotlin:S3776a"RRefactor this method to reduce its Cognitive Complexity from 61 to the 15 allowed.(üı8‘ñÊë÷1J$7071c4f3-3155-40d6-9504-5ed6068dd699
+¤kotlin:S1186C"ZAdd a nested comment explaining why this function is empty or complete the implementation.(ÀœØŸÿÿÿÿÿ8¸Í–ğ÷1J$2c28a303-cccc-4726-8b16-15e8a371c8a9
