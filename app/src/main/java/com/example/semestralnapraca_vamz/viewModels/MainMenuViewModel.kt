@@ -30,9 +30,12 @@ class MainMenuViewModel(context: Context) : ViewModel() {
     }
 
     private fun loadSavedData() {
-        _level.value = sharedPreferencesHelper.getLevel(pref)
-        _gold.value = sharedPreferencesHelper.getGold(pref)
-        _legacy.value = sharedPreferencesHelper.getLegacy(pref)
+        _level.intValue = sharedPreferencesHelper.getLevel(pref)
+        _gold.intValue = sharedPreferencesHelper.getGold(pref)
+        _legacy.intValue = sharedPreferencesHelper.getLegacy(pref)
+    }
+    fun reloadMain() {
+        loadSavedData()
     }
 
     fun setLevel(newLevel: Int) {

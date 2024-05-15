@@ -51,9 +51,11 @@ import kotlin.math.absoluteValue
 fun FightMenu(
     context: Context,
     isLandscape: Boolean,
-    navController: NavController
+    navController: NavController,
+    viewModel: FightMenuViewModel
 ) {
-    val viewModel = remember { FightMenuViewModel(context) }
+    //val viewModel = remember { FightMenuViewModel(context) }
+    var viewModel = viewModel
     FightMenuContent(isLandscape, viewModel, navController, context)
 }
 
@@ -102,6 +104,7 @@ fun PortraitLayout(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
+                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -493,6 +496,7 @@ fun LandscapeLayout(
                     Button(
                         onClick = {
                             navController.navigate("main_menu")
+                            //navController.popBackStack()
                         },
                         modifier = Modifier
                             .padding(end = 8.dp)
@@ -545,10 +549,12 @@ fun LandscapeLayout(
 fun FightMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = FightMenuViewModel(context)
     FightMenu(
         context,
         isLandscape = false,
-        navController
+        navController,
+        viewModel
     )
 }
 
@@ -557,10 +563,12 @@ fun FightMenuPreview() {
 fun FightMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = FightMenuViewModel(context)
     FightMenu(
         context,
         isLandscape = true,
-        navController
+        navController,
+        viewModel
     )
 }
 

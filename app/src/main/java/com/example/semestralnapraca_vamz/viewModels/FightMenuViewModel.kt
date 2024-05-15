@@ -95,6 +95,9 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         }
         countDownTimer.start() // Start the timer
     }
+    fun reloadFight() {
+        loadSavedData()
+    }
 
     // Clear timer when FightMenu is closed
     override fun onCleared() {
@@ -126,10 +129,16 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper.saveMonsterName(pref, newMonsterName)
     }
 
-    fun createNewMonster() {
+    fun createNewMonster(context: Context) {
         //val newMaxHealth = (baseMonsterHealth * Math.log((_monsterLevel.intValue + 1).toDouble()) * logScalingFactor).toInt()
         val newMaxHealth = Math.pow(baseMonsterHealth * (_monsterLevel.intValue + 1).toDouble(), exponentialScalingFactor).toInt()
         setMonsterStats(_monsterLevel.intValue + 1, newMaxHealth, newMaxHealth, generateMonsterName())
+        // Play deathsound
+        val mediaPlayer = MediaPlayer.create(context, DeathSounds.entries.toTypedArray().random().resID)
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.release()
+        }
+        mediaPlayer.start()
     }
 
 
@@ -218,18 +227,14 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             val entry = LogEntry(coloredString, monsterName.value, xpAmount, addedGold)
             addLogEntry(entry)
             // Monster death, generate a new one
-            createNewMonster()
-            // Play deathsound
-            val mediaPlayer = MediaPlayer.create(context, DeathSounds.entries.toTypedArray().random().resID)
-            mediaPlayer.setOnCompletionListener {
-                mediaPlayer.release()
-            }
-            mediaPlayer.start()
+            createNewMonster(context)
+
 
         } else {
             if (_monsterHealth.intValue > _monsterMaxHealth.intValue) _monsterHealth.intValue = _monsterMaxHealth.intValue
             sharedPreferencesHelper.saveMonsterHealth(pref, _monsterHealth.intValue)
         }
+
     }
 
     enum class DeathSounds(val resID: Int){

@@ -37,12 +37,14 @@ var landscapeFight: Boolean = false
 fun MainMenu(
     context: Context,
     isLandscape: Boolean,
-    navController: NavController
+    navController: NavController,
+    viewModel: MainMenuViewModel
 ) {
     landscapeFight = isLandscape
 
 
-    val viewModel = remember { MainMenuViewModel(context) }
+    //val viewModel = remember { MainMenuViewModel(context) }
+    val viewModel = viewModel
 
     val level = viewModel.level
     val gold = viewModel.gold
@@ -347,11 +349,12 @@ fun StatItem(name: String, value: MutableState<Int>, color1: Color, color2: Colo
 fun MainMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
-
+    val viewModel = MainMenuViewModel(context)
     MainMenu(
         context,
         isLandscape = false,
-        navController
+        navController,
+        viewModel
     )
 }
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 720, heightDp = 360)
@@ -359,11 +362,12 @@ fun MainMenuPreview() {
 fun MainMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
-
+    val viewModel = MainMenuViewModel(context)
     MainMenu(
         context,
         isLandscape = true,
-        navController
+        navController,
+        viewModel
     )
 }
 

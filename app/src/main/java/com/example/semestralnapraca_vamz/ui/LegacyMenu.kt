@@ -36,18 +36,20 @@ import com.example.semestralnapraca_vamz.viewModels.LegacyMenuViewModel
 fun LegacyMenu(
     context: Context,
     isLandscape: Boolean,
-    navController: NavController
+    navController: NavController,
+    viewModel: LegacyMenuViewModel
 ) {
-    val viewModel = remember { LegacyMenuViewModel(context) }
+    //val viewModel = remember { LegacyMenuViewModel(context) }
+    val viewModel = viewModel
     val builder = AlertDialog.Builder(context)
 
     builder.setTitle("Warning!")
         .setMessage("You will lose all your progress. Do you still want to proceed?")
 
     builder.setPositiveButton("YES") { dialog, which ->
-        viewModel.resetGame()
-        dialog.dismiss()
+        viewModel.resetGame(context)
         navController.navigate("main_menu")
+        dialog.dismiss()
     }
 
     builder.setNegativeButton("Decline") { dialog, which ->
@@ -75,6 +77,7 @@ fun LegacyMenuContent(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
+                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -150,10 +153,12 @@ fun LegacyMenuContent(
 fun LegacyMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = LegacyMenuViewModel(context)
     LegacyMenu(
         context,
         isLandscape = false,
-        navController
+        navController,
+        viewModel
     )
 }
 
@@ -162,9 +167,12 @@ fun LegacyMenuPreview() {
 fun LegacyMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = LegacyMenuViewModel(context)
+
     LegacyMenu(
         context,
         isLandscape = true,
-        navController
+        navController,
+        viewModel
     )
 }

@@ -32,9 +32,11 @@ import com.example.semestralnapraca_vamz.viewModels.SpellUpgradeMenuViewModel
 fun SpellUpgradeMenu(
     context: Context,
     isLandscape: Boolean,
-    navController: NavController
+    navController: NavController,
+    viewModel: SpellUpgradeMenuViewModel
 ) {
-    val viewModel = remember { SpellUpgradeMenuViewModel(context) }
+    //val viewModel = remember { SpellUpgradeMenuViewModel(context) }
+    val viewModel = viewModel
     SpellUpgradeMenuContent(isLandscape, viewModel, navController, context)
 }
 
@@ -82,6 +84,7 @@ fun PortraitLayout(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
+                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -113,10 +116,12 @@ fun LandscapeLayout(
 fun SpellUpgradeMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = SpellUpgradeMenuViewModel(context)
     SpellUpgradeMenu(
         context,
         isLandscape = false,
-        navController
+        navController,
+        viewModel
     )
 }
 
@@ -125,9 +130,11 @@ fun SpellUpgradeMenuPreview() {
 fun SpellUpgradeMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = SpellUpgradeMenuViewModel(context)
     SpellUpgradeMenu(
         context,
         isLandscape = true,
-        navController
+        navController,
+        viewModel
     )
 }

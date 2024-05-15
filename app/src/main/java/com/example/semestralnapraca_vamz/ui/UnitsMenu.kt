@@ -47,9 +47,11 @@ import com.example.semestralnapraca_vamz.viewModels.UnitsMenuViewModel
 fun UnitsMenu(
     context: Context,
     isLandscape: Boolean,
-    navController: NavController
+    navController: NavController,
+    viewModel: UnitsMenuViewModel
 ) {
-    val viewModel = remember { UnitsMenuViewModel(context) }
+    //val viewModel = remember { UnitsMenuViewModel(context) }
+    val viewModel = viewModel
     UnitsMenuContent(isLandscape, viewModel, navController, context)
 }
 
@@ -93,6 +95,7 @@ fun PortraitLayout(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
+                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -188,9 +191,9 @@ fun buyLayout(
             horizontalArrangement = Arrangement.SpaceEvenly
 
         ) {
-            buttonLayout(viewModel,unitType, 1)
-            buttonLayout(viewModel,unitType, 10)
-            buttonLayout(viewModel,unitType, 100)
+            buttonLayout(viewModel,unitType, 1, context)
+            buttonLayout(viewModel,unitType, 10, context)
+            buttonLayout(viewModel,unitType, 100, context)
         }
     }
 
@@ -200,13 +203,14 @@ fun buyLayout(
 fun buttonLayout(
     viewModel: UnitsMenuViewModel,
     unitType: String,
-    amountBought: Int
+    amountBought: Int,
+    context: Context
 ) {
     if (amountBought == -1) {
         val (price, amount) = viewModel.calculateMaxPurcharsable(unitType)
         Column {
             Button(
-                onClick = { viewModel.buyAmountOfUnits(unitType, amount) }
+                onClick = { viewModel.buyAmountOfUnits(unitType, amount, context) }
             ) {
                 Column {
                     Box(
@@ -243,7 +247,7 @@ fun buttonLayout(
     } else {
         Column {
             Button(
-                onClick = { viewModel.buyAmountOfUnits(unitType, amountBought) }
+                onClick = { viewModel.buyAmountOfUnits(unitType, amountBought, context) }
             ) {
                 Column {
                     Box(
@@ -287,10 +291,12 @@ fun buttonLayout(
 fun UnitsMenuPreview() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = UnitsMenuViewModel(context)
     UnitsMenu(
         context,
         isLandscape = false,
-        navController
+        navController,
+        viewModel
     )
 }
 
@@ -299,9 +305,11 @@ fun UnitsMenuPreview() {
 fun UnitsMenuPreviewLandscape() {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val viewModel = UnitsMenuViewModel(context)
     UnitsMenu(
         context,
         isLandscape = true,
-        navController
+        navController,
+        viewModel
     )
 }

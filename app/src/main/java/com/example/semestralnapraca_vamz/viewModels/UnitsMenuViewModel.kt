@@ -34,9 +34,9 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
     val gold: MutableState<Int> = _gold
 
 
-    private val contextxd = context
     private val pref: SharedPreferences
     private val sharedPreferencesHelper: SharedPreferencesHelper
+
 
     private val basePriceUnit = 2;
     private val multiplierWizard = 1.1;
@@ -62,6 +62,12 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         _paladinLevel.intValue = sharedPreferencesHelper.getPaladinLevel(pref)
         _gold.intValue = sharedPreferencesHelper.getGold(pref)
     }
+
+    fun reloadUnits() {
+        loadSavedData()
+    }
+
+
 
     fun calculatePriceOneUnit(unitName: String, unitLevel: Int): Double {
         when(unitName) {
@@ -134,7 +140,7 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         return Pair(totalPrice.toInt(), purcharsable.toInt())
     }*/
 
-    fun buyAmountOfUnits(unitName: String, amount: Int) {
+    fun buyAmountOfUnits(unitName: String, amount: Int, context: Context) {
         var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()
         var unitLevelCurr = getUnitCurrLevel(unitName)
         var price = calculatePriceLoop(unitName, amount)
@@ -149,7 +155,7 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveGold(pref, currentGold.toInt() - price)
             gold.value = currentGold.toInt() - price
         } else {
-            val mediaPlayer = MediaPlayer.create(contextxd, R.raw.error_sound)
+            val mediaPlayer = MediaPlayer.create(context, R.raw.error_sound)
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release()
             }

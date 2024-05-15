@@ -34,4 +34,8 @@ class SpellUpgradeMenuViewModel(context: Context) : ViewModel() {
 //        _gold.value = sharedPreferencesHelper.getGold(pref)
 //        _legacy.value = sharedPreferencesHelper.getLegacy(pref)
     }
+
+    fun reloadSpell() {
+        loadSavedData()
+    }
 }
