@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
         viewModelMainMenu.reloadMain()
         viewModelUnits.reloadUnits()
         viewModelSpellUpgrade.reloadSpell()
-        viewModelLegacy.reloadLegacy()
+        viewModelLegacy.reloadLegacy(context)
 
     }
 //    enum class IdleGameScreen {

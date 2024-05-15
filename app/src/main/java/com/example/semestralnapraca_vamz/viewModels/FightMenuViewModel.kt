@@ -1,8 +1,15 @@
 package com.example.semestralnapraca_vamz.viewModels
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.asIntState
@@ -16,8 +23,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import com.example.semestralnapraca_vamz.LogEntry
+import com.example.semestralnapraca_vamz.MainActivity
 import com.example.semestralnapraca_vamz.MonsterPrefix
 import com.example.semestralnapraca_vamz.MonsterSuffix
 import com.example.semestralnapraca_vamz.R
@@ -55,11 +66,11 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     //private val contextFightMenu: Context
 
     val spells = listOf(
-        Spell(R.drawable.archer_spell, 5L, "archer"),
-        Spell(R.drawable.wizard_spell, 10L, "wizard"),
-        Spell(R.drawable.mystic_spell, 15L, "mystic"),
-        Spell(R.drawable.knight_spell, 0L, "knight"),
-        Spell(R.drawable.paladin_spell, 25L, "paladin")
+        Spell(R.drawable.archer_spell_1, 5L, "archer"),
+        Spell(R.drawable.wizard_spell_1, 10L, "wizard"),
+        Spell(R.drawable.mystic_spell_1, 15L, "mystic"),
+        Spell(R.drawable.knight_spell_1, 0L, "knight"),
+        Spell(R.drawable.paladin_spell_1, 25L, "paladin")
         //Spell(R.drawable.knight_spell, 5000L, "knight")
     )
 
@@ -158,11 +169,11 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         val multiplierPaladin = 2.1;
         var returnVal = 1.0
         returnVal +=
-            sharedPreferencesHelper.getArcherLevel(pref) * multiplierArcher +
-            sharedPreferencesHelper.getKnightLevel(pref) * multiplierKnight +
-            sharedPreferencesHelper.getMysticLevel(pref) * multiplierMystic +
-            sharedPreferencesHelper.getWizardLevel(pref) * multiplierWizard +
-            sharedPreferencesHelper.getPaladinLevel(pref) * multiplierPaladin
+            ((sharedPreferencesHelper.getArcherLevel(pref) * multiplierArcher) * (1 + (sharedPreferencesHelper.getLegacyArcherLevel(pref)/100)) +
+            (sharedPreferencesHelper.getKnightLevel(pref) * multiplierKnight) * (1 + (sharedPreferencesHelper.getLegacyKnightLevel(pref)/100)) +
+            (sharedPreferencesHelper.getMysticLevel(pref) * multiplierMystic) * (1 + (sharedPreferencesHelper.getLegacyMysticLevel(pref)/100)) +
+            (sharedPreferencesHelper.getWizardLevel(pref) * multiplierWizard) * (1 + (sharedPreferencesHelper.getLegacyWizardLevel(pref)/100)) +
+            (sharedPreferencesHelper.getPaladinLevel(pref) * multiplierPaladin)) * (1 + (sharedPreferencesHelper.getLegacyTotal(pref) / 100))
         returnVal *= 2
         returnVal *= 1 + (sharedPreferencesHelper.getLevel(pref)/100)
         return returnVal.toInt()
@@ -226,6 +237,8 @@ class FightMenuViewModel(context: Context) : ViewModel() {
             }
             val entry = LogEntry(coloredString, monsterName.value, xpAmount, addedGold)
             addLogEntry(entry)
+            // send a notification
+            createNotification(context, "You killed a monster!", coloredString.toString())
             // Monster death, generate a new one
             createNewMonster(context)
 
@@ -267,5 +280,64 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
     fun getCooldownLeft(spellSlot: String): MutableState<Long>? {
         return cooldownLefts[spellSlot]
+    }
+
+    private var notifNumber = 5000
+    fun createNotification(context: Context, title: String, content: String) {
+        // Create the notification channel
+        createNotificationChannel(context)
+
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Build the notification
+        val builder = NotificationCompat.Builder(context, "idlegame_channel")
+            .setSmallIcon(R.drawable.mystic_spell_6)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(content))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        // Show the notification
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+            notifNumber++
+            notify(notifNumber, builder.build())
+        }
+    }
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "idlegame_channel"
+            val descriptionText = "My Notification Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("idlegame_channel", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }

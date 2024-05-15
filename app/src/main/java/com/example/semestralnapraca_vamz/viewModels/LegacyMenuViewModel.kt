@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.CountDownTimer
 import androidx.compose.runtime.MutableIntState
@@ -38,6 +39,10 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         _legacyReceived.intValue = calculateLegacy(false, context)
         _currentLegacy.intValue = sharedPreferencesHelper.getLegacy(pref)
+        // Pošli notifikáciu
+        if (getUpgradePrice("speed") < currentLegacy.value) {
+            createNotification(context, "Don't miss out!", "You are able to speed up your game,\n head to the Legacy menu!")
+        }
     }
     fun calculateLegacy(resetGame: Boolean, context: Context) : Int {
         var calculatedLeg = 1.0f
@@ -64,36 +69,54 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveMysticLevel(pref, 1)
             sharedPreferencesHelper.saveKnightLevel(pref, 1)
             sharedPreferencesHelper.savePaladinLevel(pref, 1)
+            reloadLegacy(context)
+        }
 
-        }
-        // Pošli notifikáciu
-        if (speedUpgradePrice() < currentLegacy.value) {
-            createNotification(context, "Don't miss out!", "You are able to speed up your game,\n head to the Legacy menu!")
-        }
         return calculatedLeg.toInt()
     }
 
 
     fun resetGame(context: Context) {
         calculateLegacy(true, context)
+        // Pošli notifikáciu
+        if (getUpgradePrice("speed") < currentLegacy.value) {
+            createNotification(context, "Don't miss out!", "You are able to speed up your game,\n head to the Legacy menu!")
+        }
     }
 
-    fun reloadLegacy() {
+    fun reloadLegacy(context: Context) {
         _currentLegacy.intValue = sharedPreferencesHelper.getLegacy(pref)
+        _legacyReceived.intValue = calculateLegacy(false, context)
     }
 
-    fun speedUpgradePrice(): Int {
+    fun getUpgradePrice(type: String): Int {
+        when(type) {
+            "Game speed" -> {return sharedPreferencesHelper.getGameSpeed(pref) * 5}
+            "Total Damage" -> {return sharedPreferencesHelper.getLegacyTotal(pref) * 50}
+            "Archer upgrade" -> {return sharedPreferencesHelper.getLegacyArcherLevel(pref) * 10}
+            "Wizard upgrade" -> {return sharedPreferencesHelper.getLegacyWizardLevel(pref) * 10}
+            "Mystic upgrade" -> {return sharedPreferencesHelper.getLegacyMysticLevel(pref) * 15}
+            "Knight upgrade" -> {return sharedPreferencesHelper.getLegacyKnightLevel(pref) * 20}
+        }
         return sharedPreferencesHelper.getGameSpeed(pref) * 5
     }
-    fun speedUpgrade() {
-        val price = speedUpgradePrice()
-        if (currentLegacy.value > price) {
+    fun legacyUpgrade(type: String, context: Context) {
+        val price = getUpgradePrice(type)
+        if (currentLegacy.value >= price) {
+            sharedPreferencesHelper.saveLegacy(pref, currentLegacy.value - price)
             currentLegacy.value -= price
-            sharedPreferencesHelper.saveLegacy(pref, sharedPreferencesHelper.getLegacy(pref) + 1)
+            when(type) {
+                "Game speed" -> {sharedPreferencesHelper.saveGameSpeed(pref, sharedPreferencesHelper.getGameSpeed(pref) + 1)}
+                "Total Damage" -> {sharedPreferencesHelper.saveLegacyTotal(pref, sharedPreferencesHelper.getLegacyTotal(pref) + 1)}
+                "Archer upgrade" -> {sharedPreferencesHelper.saveLegacyArcherLevel(pref, sharedPreferencesHelper.getLegacyArcherLevel(pref) + 1)}
+                "Wizard upgrade" -> {sharedPreferencesHelper.saveLegacyWizardLevel(pref, sharedPreferencesHelper.getLegacyWizardLevel(pref) + 1)}
+                "Mystic upgrade" -> {sharedPreferencesHelper.saveLegacyMysticLevel(pref, sharedPreferencesHelper.getLegacyMysticLevel(pref) + 1)}
+                "Knight upgrade" -> {sharedPreferencesHelper.saveLegacyKnightLevel(pref, sharedPreferencesHelper.getLegacyKnightLevel(pref) + 1)}
+            }
         }
-
     }
 
+    private var notifNumber = 1
     fun createNotification(context: Context, title: String, content: String) {
         // Create the notification channel
         createNotificationChannel(context)
@@ -108,8 +131,8 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
         )
 
         // Build the notification
-        val builder = NotificationCompat.Builder(context, "idlegame_channel")
-            .setSmallIcon(R.drawable.mystic_spell)
+        val builder = NotificationCompat.Builder(context, "idlegame_channel2")
+            .setSmallIcon(R.drawable.mystic_spell_6)
             .setContentTitle(title)
             .setContentText(content)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))
@@ -133,7 +156,8 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
                 // for ActivityCompat#requestPermissions for more details.
                 return
             }
-            notify(1, builder.build())
+            notifNumber++
+            notify(notifNumber, builder.build())
         }
     }
     private fun createNotificationChannel(context: Context) {
@@ -141,7 +165,7 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             val name = "idlegame_channel"
             val descriptionText = "My Notification Channel"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("idlegame_channel", name, importance).apply {
+            val channel = NotificationChannel("idlegame_channel2", name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system

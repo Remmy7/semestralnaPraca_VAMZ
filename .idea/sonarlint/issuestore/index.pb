@@ -158,5 +158,7 @@ Tapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/UnitsMenuViewMod
 [app/src/main/java/com/example/semestralnapraca_vamz/viewModels/SpellUpgradeMenuViewModel.kt,d\d\dd037ad8659700650ac22d74c3300a60a7d7bc19
 z
 Japp/src/main/java/com/example/semestralnapraca_vamz/ui/SpellUpgradeMenu.kt,c\5\c512c78e3af15dc42159bf0b322b5e627a45767d
-‡
-Wapp/src/main/java/com/example/semestralnapraca_vamz/viewModels/NotificationViewModel.kt,a\d\adf6417b998177be11d03f319100b10266493edb
+I
+app/src/main/UMLtest.puml,e\1\e1d50abe3f210392dc8afe53235cb8a1c8efdc28
+E
+app/src/main/obj.puml,b\f\bff538628ff6695d135ff560a7361e0c25e7ee35
