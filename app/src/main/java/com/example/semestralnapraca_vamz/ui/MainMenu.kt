@@ -45,7 +45,6 @@ fun MainMenu(
     landscapeFight = isLandscape
 
 
-    //val viewModel = remember { MainMenuViewModel(context) }
     val viewModel = viewModel
 
     val level = viewModel.level

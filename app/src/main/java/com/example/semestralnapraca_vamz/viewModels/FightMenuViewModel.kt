@@ -66,7 +66,6 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
 
 
-    //private val contextFightMenu: Context
 
 
 
@@ -86,7 +85,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         loadSavedData()
-        //contextFightMenu = context
+
 
 
         spells = listOf(
@@ -172,14 +171,11 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         loadSavedData()
     }
 
-    // Clear timer when FightMenu is closed
+
     override fun onCleared() {
         super.onCleared()
         countDownTimer.cancel()
-        /*ssharedPreferencesHelper.saveMonsterLevel(pref, _monsterLevel.intValue)
-        sharedPreferencesHelper.saveMonsterHealth(pref, _monsterHealth.intValue)
-        sharedPreferencesHelper.saveMonsterMaxHealth(pref, _monsterMaxHealth.intValue)
-        sharedPreferencesHelper.saveMonsterName(pref, _monsterName.value)*/
+
     }
 
     private fun loadSavedData() {
@@ -240,7 +236,6 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         returnVal *= 2
         returnVal *= 1 + (sharedPreferencesHelper.getLevel(pref)/100)
         return returnVal.toInt()
-        //        return (levels*multiplier).toInt() + getUnitCurrLevel(unitName) * 2 * levels
     }
 
     // Casts a spell specified by the spell slot
@@ -294,7 +289,7 @@ class FightMenuViewModel(context: Context) : ViewModel() {
                     append(context.getString(R.string.received_3))
                 }
                 withStyle(style = SpanStyle(color = Color.Green)) {
-                    append(context.getString(R.string.xp_2, xpAmount.toString())) // robil tu problém extraction
+                    append(context.getString(R.string.xp_2, xpAmount.toString()))
                 }
                 withStyle(style = SpanStyle(color = Color.White)) {
                     append(context.getString(R.string.and_5))

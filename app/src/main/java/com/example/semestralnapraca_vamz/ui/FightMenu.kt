@@ -55,7 +55,6 @@ fun FightMenu(
     navController: NavController,
     viewModel: FightMenuViewModel
 ) {
-    //val viewModel = remember { FightMenuViewModel(context) }
     var viewModel = viewModel
     FightMenuContent(isLandscape, viewModel, navController, context)
 }
@@ -105,7 +104,6 @@ fun PortraitLayout(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
-                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -519,7 +517,6 @@ fun LandscapeLayout(
                     Button(
                         onClick = {
                             navController.navigate("main_menu")
-                            //navController.popBackStack()
                         },
                         modifier = Modifier
                             .padding(end = 8.dp)

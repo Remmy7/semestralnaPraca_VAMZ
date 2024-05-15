@@ -54,7 +54,6 @@ fun SpellUpgradeMenu(
     navController: NavController,
     viewModel: SpellUpgradeMenuViewModel
 ) {
-    //val viewModel = remember { SpellUpgradeMenuViewModel(context) }
     val viewModel = viewModel
     SpellUpgradeMenuContent(isLandscape, viewModel, navController, context)
 }
@@ -100,7 +99,6 @@ fun PortraitLayout(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
-                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)

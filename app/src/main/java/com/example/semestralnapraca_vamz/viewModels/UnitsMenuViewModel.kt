@@ -11,14 +11,7 @@ import com.example.semestralnapraca_vamz.R
 import com.example.semestralnapraca_vamz.SharedPreferencesHelper
 
 class UnitsMenuViewModel(context: Context) : ViewModel() {
-//    private val _level = mutableIntStateOf(1)
-//    val level: MutableState<Int> = _level
-//
-//    private val _gold = mutableIntStateOf(600)
-//    val gold: MutableState<Int> = _gold
-//
-//    private val _legacy = mutableIntStateOf(0)
-//    val legacy: MutableState<Int> = _legacy
+
 
     private val _archerLevel = mutableIntStateOf(20)
     val archerLevel: MutableState<Int> = _archerLevel
@@ -52,9 +45,6 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
     }
 
     private fun loadSavedData() {
-//        _level.value = sharedPreferencesHelper.getLevel(pref)
-//        _gold.value = sharedPreferencesHelper.getGold(pref)
-//        _legacy.value = sharedPreferencesHelper.getLegacy(pref)
         _archerLevel.intValue = sharedPreferencesHelper.getArcherLevel(pref)
         _wizardLevel.intValue = sharedPreferencesHelper.getWizardLevel(pref)
         _mysticLevel.intValue = sharedPreferencesHelper.getMysticLevel(pref)
@@ -117,28 +107,9 @@ class UnitsMenuViewModel(context: Context) : ViewModel() {
         }
         return returnVal.toInt()
     }
-    // Too slow
     fun calculateMaxPurcharsable(unitName: String): Pair<Int, Int> {
         return Pair(1,1)
     }
-        /*var totalGold = sharedPreferencesHelper.getGold(pref).toDouble()
-        var currentGold = totalGold
-
-        var currLevel = getUnitCurrLevel(unitName)
-        var purcharsable = 0
-        var totalPrice = 0.0
-
-        while (currentGold > 0) {
-            purcharsable++
-            totalPrice += calculatePriceOneUnit(unitName, currLevel)
-            currLevel++
-        }
-        if (totalPrice > totalGold ) {
-            totalPrice -= calculatePriceOneUnit(unitName, currLevel)
-            purcharsable--
-        }
-        return Pair(totalPrice.toInt(), purcharsable.toInt())
-    }*/
 
     fun buyAmountOfUnits(unitName: String, amount: Int, context: Context) {
         var currentGold = sharedPreferencesHelper.getGold(pref).toDouble()

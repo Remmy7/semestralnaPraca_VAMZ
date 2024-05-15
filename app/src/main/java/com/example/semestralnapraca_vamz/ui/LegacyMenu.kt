@@ -42,7 +42,6 @@ fun LegacyMenu(
     navController: NavController,
     viewModel: LegacyMenuViewModel
 ) {
-    //val viewModel = remember { LegacyMenuViewModel(context) }
     val viewModel = viewModel
     val builder = AlertDialog.Builder(context)
 
@@ -79,7 +78,6 @@ fun LegacyMenuContent(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
-                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -180,7 +178,6 @@ fun LegacyMenuContent(
             Button(
                 onClick = {
                     navController.navigate("main_menu")
-                    //navController.popBackStack()
                 },
                 modifier = Modifier
                     .padding(end = 8.dp)
