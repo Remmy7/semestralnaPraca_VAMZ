@@ -51,6 +51,9 @@ class FightMenuViewModel(context: Context) : ViewModel() {
     private val _monsterName = mutableStateOf("TempBoss")
     val monsterName: MutableState<String> = _monsterName
 
+    private val _monsterSprite = mutableIntStateOf(R.drawable.enemy_medusa)
+    val monsterSprite: MutableState<Int> = _monsterSprite
+
 
 
     private val logScalingFactor = 25
@@ -65,28 +68,35 @@ class FightMenuViewModel(context: Context) : ViewModel() {
 
     //private val contextFightMenu: Context
 
-    val spells = listOf(
-        Spell(R.drawable.archer_spell_1, 5L, "archer"),
-        Spell(R.drawable.wizard_spell_1, 10L, "wizard"),
-        Spell(R.drawable.mystic_spell_1, 15L, "mystic"),
-        Spell(R.drawable.knight_spell_1, 0L, "knight"),
-        Spell(R.drawable.paladin_spell_1, 25L, "paladin")
-        //Spell(R.drawable.knight_spell, 5000L, "knight")
-    )
 
 
     val logEntries = SnapshotStateList<LogEntry>()
 
+    val spells: List<Spell>
 
     private val pref: SharedPreferences
     private val sharedPreferencesHelper: SharedPreferencesHelper
     private val countDownTimer: CountDownTimer
+
+
+
+
 
     init {
         sharedPreferencesHelper = SharedPreferencesHelper
         pref = SharedPreferencesHelper.getSharedPreferences(context)
         loadSavedData()
         //contextFightMenu = context
+
+
+        spells = listOf(
+            Spell(getDrawable("archer"), 5L, "archer"),
+            Spell(getDrawable("wizard"), 10L, "wizard"),
+            Spell(getDrawable("mystic"), 15L, "mystic"),
+            Spell(getDrawable("knight"), 0L, "knight"),
+            Spell(getDrawable("paladin"), 25L, "paladin")
+        )
+
         for (spell in spells) {
             cooldowns[spell.spellSlot] = mutableStateOf(spell.cooldown)
             cooldownLefts[spell.spellSlot] = mutableStateOf(spell.cooldownLeft)
@@ -106,6 +116,58 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         }
         countDownTimer.start() // Start the timer
     }
+
+    fun getDrawable(spellSlot: String): Int {
+        when(spellSlot) {
+            "archer" -> {
+                val level = sharedPreferencesHelper.getArcherSpellLevel(pref)
+                if (level < 5) return R.drawable.archer_spell_1
+                if (level < 10) return R.drawable.archer_spell_2
+                if (level < 15) return R.drawable.archer_spell_3
+                if (level < 20) return R.drawable.archer_spell_4
+                if (level < 25) return R.drawable.archer_spell_5
+                if (level >= 25) return R.drawable.archer_spell_6
+            }
+            "wizard" -> {
+                val level = sharedPreferencesHelper.getWizardSpellLevel(pref)
+                if (level < 5) return R.drawable.wizard_spell_1
+                if (level < 10) return R.drawable.wizard_spell_2
+                if (level < 15) return R.drawable.wizard_spell_3
+                if (level < 20) return R.drawable.wizard_spell_4
+                if (level < 25) return R.drawable.wizard_spell_5
+                if (level >= 25) return R.drawable.wizard_spell_6
+            }
+            "mystic" -> {
+                val level = sharedPreferencesHelper.getMysticSpellLevel(pref)
+                if (level < 5) return R.drawable.mystic_spell_1
+                if (level < 10) return R.drawable.mystic_spell_2
+                if (level < 15) return R.drawable.mystic_spell_3
+                if (level < 20) return R.drawable.mystic_spell_4
+                if (level < 25) return R.drawable.mystic_spell_5
+                if (level >= 25) return R.drawable.mystic_spell_6
+            }
+            "knight" -> {
+                val level = sharedPreferencesHelper.getKnightSpellLevel(pref)
+                if (level < 5) return R.drawable.knight_spell_1
+                if (level < 10) return R.drawable.knight_spell_2
+                if (level < 15) return R.drawable.knight_spell_3
+                if (level < 20) return R.drawable.knight_spell_4
+                if (level < 25) return R.drawable.knight_spell_5
+                if (level >= 25) return R.drawable.knight_spell_6
+            }
+            "paladin" -> {
+                val level = sharedPreferencesHelper.getPaladinSpellLevel(pref)
+                if (level < 5) return R.drawable.paladin_spell_1
+                if (level < 10) return R.drawable.paladin_spell_2
+                if (level < 15) return R.drawable.paladin_spell_3
+                if (level < 20) return R.drawable.paladin_spell_4
+                if (level < 25) return R.drawable.paladin_spell_5
+                if (level >= 25) return R.drawable.paladin_spell_6
+            }
+        }
+        return R.drawable.enemy_oryx2
+    }
+
     fun reloadFight() {
         loadSavedData()
     }
@@ -138,6 +200,8 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         sharedPreferencesHelper.saveMonsterHealth(pref, newHealth)
         sharedPreferencesHelper.saveMonsterMaxHealth(pref, newMaxHealth)
         sharedPreferencesHelper.saveMonsterName(pref, newMonsterName)
+
+        _monsterSprite.intValue = returnRandomSprite()
     }
 
     fun createNewMonster(context: Context) {
@@ -188,19 +252,24 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         }
         when(spellSlot) {
             "archer" -> {
-                _monsterHealth.intValue -= 15
+                _monsterHealth.intValue -=
+                    (sharedPreferencesHelper.getArcherSpellLevel(pref) * (1 + sharedPreferencesHelper.getLegacyArcherLevel(pref)/100))*15
             }
             "wizard" -> {
-                _monsterHealth.intValue -= 30
+                _monsterHealth.intValue -=
+                    (sharedPreferencesHelper.getWizardSpellLevel(pref) * (1 + sharedPreferencesHelper.getLegacyWizardLevel(pref)/100))*30
             }
             "mystic" -> {
-                _monsterHealth.intValue -= 45
+                _monsterHealth.intValue -=
+                    (sharedPreferencesHelper.getMysticSpellLevel(pref) * (1 + sharedPreferencesHelper.getLegacyMysticLevel(pref)/100))*45
             }
             "paladin" -> {
-                _monsterHealth.intValue -= 45
+                _monsterHealth.intValue -=
+                    (sharedPreferencesHelper.getPaladinSpellLevel(pref))*60
             }
             "knight" -> {
-                _monsterHealth.intValue -= 9999999
+                _monsterHealth.intValue -=
+                    (sharedPreferencesHelper.getKnightSpellLevel(pref) * (1 + sharedPreferencesHelper.getLegacyKnightLevel(pref)/100))*120
             }
 
         }
@@ -256,6 +325,18 @@ class FightMenuViewModel(context: Context) : ViewModel() {
         DEMONS(R.raw.demons_death),
         MEDUSA(R.raw.medusa_death),
         GOBLINS(R.raw.goblins_death)
+    }
+
+    enum class EnemySprites(val resID: Int) {
+        Oryx(R.drawable.enemy_oryx),
+        Oryx2(R.drawable.enemy_oryx2),
+        Medusa(R.drawable.enemy_medusa),
+        Beholder(R.drawable.enemy_beholder),
+        Umi(R.drawable.enemy_umi)
+    }
+
+    fun returnRandomSprite() : Int {
+        return EnemySprites.entries.toTypedArray().random().resID
     }
 
     fun isSpellOnCooldown(spell: Spell): Boolean {

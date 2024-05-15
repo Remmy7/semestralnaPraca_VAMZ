@@ -201,19 +201,19 @@ object SharedPreferencesHelper {
     }
 
     fun getWizardLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._wizardLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._wizardLevel, 10)
     }
 
     fun getWizardSpellLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._wizardSpellLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._wizardSpellLevel, 22)
     }
 
     fun getArcherLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._archerLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._archerLevel, 10)
     }
 
     fun getArcherSpellLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._archerSpellLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._archerSpellLevel, 34)
     }
 
     fun getKnightLevel(preferenceHelper: SharedPreferences): Int {
@@ -224,10 +224,10 @@ object SharedPreferencesHelper {
     }
 
     fun getKnightSpellLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._knightSpellLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._knightSpellLevel, 24)
     }
     fun getPaladinSpellLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._paladinSpellLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._paladinSpellLevel, 18)
     }
 
     fun getMysticLevel(preferenceHelper: SharedPreferences): Int {
@@ -235,7 +235,7 @@ object SharedPreferencesHelper {
     }
 
     fun getMysticSpellLevel(preferenceHelper: SharedPreferences): Int {
-        return preferenceHelper.getInt(PreferenceHelper._mysticSpellLevel, 1)
+        return preferenceHelper.getInt(PreferenceHelper._mysticSpellLevel, 19)
     }
 
     fun getLegacyWizardLevel(preferenceHelper: SharedPreferences): Int {

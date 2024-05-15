@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -131,6 +132,54 @@ fun PortraitLayout(
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
                 )
+                Image(
+                    painter = painterResource(id = R.drawable.wizard),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.BottomStart)
+                        .offset(x = 15.dp, y = -50.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.archer),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.BottomStart)
+                        .offset(x = 15.dp, y = -100.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.mystic),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.BottomStart)
+                        .offset(x = 15.dp, y = -170.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.paladin),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.BottomStart)
+                        .offset(x = 120.dp, y = -100.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.knight),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.BottomStart)
+                        .offset(x = 120.dp, y = -40.dp)
+                )
+                Image(
+                    painter = painterResource(viewModel.monsterSprite.value),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(150.dp)
+                        .align(Alignment.BottomEnd)
+                        .offset(y = -80.dp)
+                )
             }
         }
         spellButtons(viewModel, false, context)
@@ -182,150 +231,75 @@ fun monsterStats(
     val monsterMaxHealth = viewModel.monsterMaxHealth
     val healthPercentage = (monsterHealth.value.toFloat() / monsterMaxHealth.value.toFloat())
 
-
-    if (isLandscape) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, top = 8.dp),
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp),
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+
+
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-
-
-            ) {
-                Text(
-                    text = viewModel.monsterName.value,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White
-                )
-                val levelText = buildAnnotatedString {
-                    append("Level: ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(viewModel.monsterLevel.value.toString())
-                    }
-
+            Text(
+                text = viewModel.monsterName.value,
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                color = Color.White
+            )
+            val levelText = buildAnnotatedString {
+                    append(stringResource(R.string.level))
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(viewModel.monsterLevel.value.toString())
                 }
-                Text(
-                    text = levelText,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
-                )
+
             }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
+            Text(
+                text = levelText,
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                color = Color.White,
+                textAlign = TextAlign.End,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(Color.Gray)
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                Brush.horizontalGradient(
-                                    listOf(
-                                        Color(0xFFFF0000),
-                                        Color(0xFF66FF33)
-                                    )
-                                )
-                            )
-                            .fillMaxWidth(healthPercentage)
-                            .fillMaxHeight()
-
-
-                    )
-                    Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
-                }
-            }
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            )
         }
-    } else {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-
-
-            ) {
-                Text(
-                    text = viewModel.monsterName.value,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White
-                )
-                val levelText = buildAnnotatedString {
-                    append("Level: ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(viewModel.monsterLevel.value.toString())
-                    }
-
-                }
-                Text(
-                    text = levelText,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
-                    color = Color.White,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
-                )
-            }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(Color.Gray)
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                Brush.horizontalGradient(
-                                    listOf(
-                                        Color(0xFFFF0000),
-                                        Color(0xFF66FF33)
-                                    )
-                                )
-                            )
-                            .fillMaxWidth(healthPercentage)
-                            .fillMaxHeight()
-
-
-                    )
-                    Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
-                }
-            }
-        }
-
     }
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Gray)
+                    .fillMaxWidth()
+                    .fillMaxHeight()
 
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(
+                                    Color(0xFFFF0000),
+                                    Color(0xFF66FF33)
+                                )
+                            )
+                        )
+                        .fillMaxWidth(healthPercentage)
+                        .fillMaxHeight()
+
+
+                )
+                Text("${monsterHealth.value} / ${monsterMaxHealth.value}", modifier = Modifier.align(alignment = Alignment.Center), fontSize = 30.sp)
+            }
+        }
+    }
 }
 
 @Composable
@@ -339,7 +313,7 @@ fun spellButtons(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(end = 16.dp, top=8.dp, bottom=8.dp)
+                .padding(end = 16.dp, top = 8.dp, bottom = 8.dp)
                 .background(Color(0xFF5C2402)),
             horizontalArrangement = Arrangement.SpaceEvenly
         )
@@ -358,7 +332,7 @@ fun spellButtons(
                     .weight(1f)) {
 
                     Image(
-                        painter = painterResource(id = spell.drawableResId),
+                        painter = painterResource(viewModel.getDrawable(spell.spellSlot)),
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
@@ -412,7 +386,7 @@ fun spellButtons(
                     .weight(1f)) {
 
                     Image(
-                        painter = painterResource(id = spell.drawableResId),
+                        painter = painterResource(viewModel.getDrawable(spell.spellSlot)),
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
@@ -458,7 +432,8 @@ fun LandscapeLayout(
     ) {
 
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .fillMaxHeight(0.7f),
             verticalAlignment = Alignment.CenterVertically
 
@@ -478,12 +453,60 @@ fun LandscapeLayout(
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize()
                     )
+                    Image(
+                        painter = painterResource(id = R.drawable.wizard),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.BottomStart)
+                            .offset(x = 45.dp, y = -40.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.archer),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.BottomStart)
+                            .offset(x = 45.dp, y = -100.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.mystic),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.BottomStart)
+                            .offset(x = 45.dp, y = -170.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.paladin),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.BottomStart)
+                            .offset(x = 150.dp, y = -100.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.knight),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.BottomStart)
+                            .offset(x = 150.dp, y = -40.dp)
+                    )
+                    Image(
+                        painter = painterResource(viewModel.monsterSprite.value),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(150.dp)
+                            .align(Alignment.BottomEnd)
+                            .offset(x = -30.dp, y = -30.dp)
+                    )
                 }
             }
             Column(modifier = Modifier.fillMaxSize()) {
                 Row() {
                     Text(
-                        text = "Fight!",
+                        text = stringResource(R.string.fight),
                         modifier = Modifier
                             .padding(bottom = 8.dp, top = 8.dp)
                             .weight(1f)
@@ -501,7 +524,7 @@ fun LandscapeLayout(
                         modifier = Modifier
                             .padding(end = 8.dp)
                     ) {
-                        Text(text = "Back", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Text(text = stringResource(R.string.back), fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     }
                 }
                 Column(
@@ -530,7 +553,7 @@ fun LandscapeLayout(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.5f)
-                    .padding(start=16.dp, bottom=8.dp, top = 8.dp, end = 8.dp)
+                    .padding(start = 16.dp, bottom = 8.dp, top = 8.dp, end = 8.dp)
                     .background(Color(0xFF5C2402)),
             )
             {

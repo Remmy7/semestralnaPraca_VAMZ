@@ -145,26 +145,8 @@ fun PortraitLayout(
                     buyLayout(viewModel, context, unitType, unitLevel)
                 }
             }
-
         }
     }
-}
-
-@Composable
-fun LandscapeLayout(
-    viewModel: UnitsMenuViewModel,
-    navController: NavController,
-    context: Context
-) {
-        Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFB36800)),
-            verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        buyLayout(viewModel, context, "archer", viewModel.archerLevel)
-    }
-
 }
 
 @Composable

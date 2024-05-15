@@ -41,7 +41,7 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
         _currentLegacy.intValue = sharedPreferencesHelper.getLegacy(pref)
         // Pošli notifikáciu
         if (getUpgradePrice("speed") < currentLegacy.value) {
-            createNotification(context, "Don't miss out!", "You are able to speed up your game,\n head to the Legacy menu!")
+            createNotification(context, "Don't miss out!", "You are able to speed up your game, head to the Legacy menu!")
         }
     }
     fun calculateLegacy(resetGame: Boolean, context: Context) : Int {
@@ -69,6 +69,11 @@ class LegacyMenuViewModel(context: Context) : ViewModel() {
             sharedPreferencesHelper.saveMysticLevel(pref, 1)
             sharedPreferencesHelper.saveKnightLevel(pref, 1)
             sharedPreferencesHelper.savePaladinLevel(pref, 1)
+            sharedPreferencesHelper.saveArcherSpellLevel(pref, 1)
+            sharedPreferencesHelper.saveWizardSpellLevel(pref, 1)
+            sharedPreferencesHelper.saveMysticSpellLevel(pref, 1)
+            sharedPreferencesHelper.saveKnightSpellLevel(pref, 1)
+            sharedPreferencesHelper.savePaladinSpellLevel(pref, 1)
             reloadLegacy(context)
         }
 

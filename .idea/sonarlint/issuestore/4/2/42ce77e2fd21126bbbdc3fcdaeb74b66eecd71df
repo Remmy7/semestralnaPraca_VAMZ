@@ -1,0 +1,20 @@
+
+zkotlin:S1172â"4Remove this unused function parameter "isLandscape".(á«£õ8æş¶î÷1J$7612cf08-c04d-43fa-9e31-dcdee03fef6f
+hkotlin:S125:"Remove this commented out code.(©¨Ÿÿÿÿÿÿ8ñş¶î÷1J$7b412164-b15a-4481-813e-c6ab2ef9a286
+ckotlin:S125l"Remove this commented out code.(õãëÙ8òş¶î÷1J$75970b91-cf58-4c16-9928-1371b9e1378e
+dkotlin:S125Š"Remove this commented out code.(õãëÙ8òş¶î÷1J$56c2426e-974d-46c4-9f37-e33b54da6b0d
+|kotlin:S1481å"1Remove this unused "monsterLevel" local variable.(­ûœ…şÿÿÿÿ8˜ÿ¶î÷1J$10398322-f9d1-4d78-b871-c62a7a990010
+vkotlin:S1481ä"0Remove this unused "monsterName" local variable.(äøÈ§8˜ÿ¶î÷1J$77c5b15c-9a03-4858-b2e0-f37a2d839945
+_kotlin:S1128	"Remove this unused import.(™òæÜ8¦ÿ¶î÷1J$dd6faf65-d767-485c-ab45-17e939ba1e69
+dkotlin:S1128
+"Remove this unused import.(¤­‹üÿÿÿÿ8¦ÿ¶î÷1J$4f4ee30b-8576-449c-9217-37395ea2f513
+_kotlin:S1128"Remove this unused import.(Şå²8¦ÿ¶î÷1J$b3dea49b-5e3f-451b-a314-c13f3e936aa3
+_kotlin:S1128"Remove this unused import.(´çø8¦ÿ¶î÷1J$1d4743b4-fcd3-4629-bf78-beb17db95c1b
+dkotlin:S1128"Remove this unused import.(ˆ²ŞÎûÿÿÿÿ8¦ÿ¶î÷1J$f90b4fd0-8873-451d-86f7-1b7c266a1976
+dkotlin:S1128"Remove this unused import.(ÉÁ¸şÿÿÿÿ8§ÿ¶î÷1J$88e222a0-27ae-4158-87d0-d1c4770f505b
+_kotlin:S1128"Remove this unused import.(ğ”›„8§ÿ¶î÷1J$2052887f-fa3f-4dde-8296-4010de8bd47f
+dkotlin:S1128"Remove this unused import.(•“õÿşÿÿÿÿ8§ÿ¶î÷1J$6abc3960-9336-46ac-8f17-6c948663859e
+dkotlin:S1128!"Remove this unused import.(õÜ¦åûÿÿÿÿ8§ÿ¶î÷1J$17d00347-8c79-41f3-b0dc-48090349efbd
+_kotlin:S1128)"Remove this unused import.(®³ù‰8§ÿ¶î÷1J$5d449fd0-4262-4021-b8eb-7efb25d8e21d
+dkotlin:S11281"Remove this unused import.(‚œÒÿÿÿÿÿ8§ÿ¶î÷1J$726bb4cf-4c32-4675-b618-e7045091a8eb
+˜kotlin:S3776²"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(òµ™¨8³ÿ¶î÷1J$74885784-b3ba-439d-835a-888269edd15a
